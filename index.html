@@ -3,299 +3,326 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#11998e">
-<title>PHONE VALUE CHECK</title>
+<meta name="theme-color" content="#0a0a0a">
+<title>ফোন ভ্যালু চেক</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-body{font-family:-apple-system,'Segoe UI',sans-serif;background:linear-gradient(135deg,#11998e,#38ef7d);min-height:100vh;padding:12px;font-size:15px}
-.box{background:#fff;max-width:520px;margin:0 auto;padding:20px 16px;border-radius:18px;box-shadow:0 10px 30px rgba(0,0,0,.2)}
-h1{text-align:center;font-size:20px;color:#11998e;margin-bottom:3px;font-weight:bold;letter-spacing:1px}
-.sub{text-align:center;color:#888;font-size:12px;margin-bottom:18px}
-label{display:block;margin-top:14px;margin-bottom:6px;font-weight:600;color:#333;font-size:13px}
-input,select{width:100%;padding:13px 12px;border:2px solid #ddd;border-radius:12px;font-size:15px;background:#fff;-webkit-appearance:none;appearance:none}
-input:focus,select:focus{border-color:#11998e;outline:none}
-button{width:100%;margin-top:20px;padding:16px;background:linear-gradient(135deg,#11998e,#38ef7d);color:#fff;border:none;border-radius:12px;font-size:17px;font-weight:bold;-webkit-appearance:none}
+body{font-family:-apple-system,'Segoe UI','Noto Sans Bengali',sans-serif;background:#0a0a0a;min-height:100vh;padding:14px;font-size:15px;color:#e0e0e0}
+.box{background:linear-gradient(145deg,#1a1a1a,#0d0d0d);max-width:520px;margin:0 auto;padding:24px 18px;border-radius:20px;border:1px solid #2a2a2a;box-shadow:0 20px 60px rgba(0,0,0,.8),inset 0 1px 0 rgba(212,175,55,.1)}
+h1{text-align:center;font-size:22px;color:#d4af37;margin-bottom:4px;font-weight:700;letter-spacing:2px;font-family:'Playfair Display',Georgia,serif}
+.sub{text-align:center;color:#666;font-size:11px;margin-bottom:22px;letter-spacing:1px;text-transform:uppercase}
+label{display:block;margin-top:16px;margin-bottom:7px;font-weight:600;color:#b0b0b0;font-size:12.5px;letter-spacing:0.3px}
+input,select{width:100%;padding:13px 14px;border:1.5px solid #2a2a2a;border-radius:10px;font-size:15px;background:#0f0f0f;color:#e0e0e0;-webkit-appearance:none;appearance:none;font-family:inherit}
+input:focus,select:focus{border-color:#d4af37;outline:none;box-shadow:0 0 0 3px rgba(212,175,55,.1)}
+select{background-image:url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23d4af37' stroke-width='2'%3e%3cpolyline points='6 9 12 15 18 9'/%3e%3c/svg%3e");background-repeat:no-repeat;background-position:right 12px center;background-size:18px;padding-right:42px}
+input::placeholder{color:#444}
+button{width:100%;margin-top:22px;padding:16px;background:linear-gradient(135deg,#d4af37,#b8941f);color:#0a0a0a;border:none;border-radius:10px;font-size:16px;font-weight:700;letter-spacing:1px;cursor:pointer;font-family:inherit;transition:.2s}
 button:active{transform:scale(.98)}
-.result{margin-top:20px;padding:16px;background:#f0fff4;border-radius:14px;border-left:5px solid #11998e;display:none}
-.result.show{display:block}
-.row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px dashed #ddd;font-size:13px;gap:8px}
-.label-txt{color:#666;flex:1}
-.value{font-weight:bold;color:#222;text-align:right}
-.hl{background:#d4f5e0;padding:18px;border-radius:12px;margin-top:14px;text-align:center}
-.hl .sm{font-size:12px;color:#555}
-.hl .big{font-size:32px;color:#0a7d5a;font-weight:bold;margin:6px 0}
-.tip{font-size:11px;color:#888;margin-top:12px;line-height:1.6;background:#f8f8f8;padding:10px;border-radius:8px}
+.calc-btn{background:linear-gradient(135deg,#d4af37,#b8941f);color:#0a0a0a}
+.result{margin-top:22px;padding:18px;background:#0f0f0f;border-radius:14px;border:1px solid #2a2a2a;border-left:3px solid #d4af37;display:none}
+.result.show{display:block;animation:fadeIn .4s}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.row{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #1a1a1a;font-size:13.5px;gap:8px}
+.row:last-child{border:none}
+.label-txt{color:#888;flex:1}
+.value{font-weight:600;color:#e0e0e0;text-align:right}
+.hl{background:linear-gradient(135deg,#1a1508,#0f0f0f);padding:22px 18px;border-radius:14px;margin-top:16px;text-align:center;border:1px solid #d4af37}
+.hl .sm{font-size:11px;color:#b8941f;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px}
+.hl .big{font-size:34px;color:#d4af37;font-weight:700;margin:8px 0;font-family:'Playfair Display',Georgia,serif}
 .ac-wrap{position:relative}
-.ac-list{position:absolute;top:100%;left:0;right:0;background:#fff;border:2px solid #11998e;border-top:none;border-radius:0 0 12px 12px;max-height:280px;overflow-y:auto;z-index:100;display:none;box-shadow:0 8px 20px rgba(0,0,0,.15)}
+.ac-list{position:absolute;top:100%;left:0;right:0;background:#0f0f0f;border:1.5px solid #d4af37;border-top:none;border-radius:0 0 10px 10px;max-height:300px;overflow-y:auto;z-index:100;display:none;box-shadow:0 10px 30px rgba(0,0,0,.9)}
 .ac-list.show{display:block}
-.ac-item{padding:12px 14px;border-bottom:1px solid #eee;cursor:pointer;font-size:14px;color:#222}
+.ac-item{padding:13px 14px;border-bottom:1px solid #1a1a1a;cursor:pointer;font-size:14px;color:#c0c0c0}
 .ac-item:last-child{border-bottom:none}
-.ac-item:active,.ac-item:hover{background:#e8f8f2}
-.ac-item .m{font-weight:600;color:#222}
-.ac-empty{padding:12px 14px;color:#888;font-size:13px;text-align:center}
-.section{background:#f8f9fa;padding:12px;border-radius:12px;margin-top:14px;border-left:4px solid #11998e}
-.section-title{font-size:13px;font-weight:bold;color:#11998e;margin-bottom:6px}
-.profit-hidden{background:#fff8e1;border:2px dashed #f9a825;border-radius:12px;padding:14px;margin-top:14px;text-align:center;cursor:pointer;user-select:none}
-.profit-hidden .eye{font-size:24px}
-.profit-hidden .txt{font-size:13px;color:#666;margin-top:4px}
-.profit-panel{background:#fff8e1;border:2px solid #f9a825;border-radius:12px;padding:14px;margin-top:14px;display:none}
+.ac-item:active,.ac-item:hover{background:#1a1508;color:#d4af37}
+.ac-item .m{font-weight:600}
+.ac-empty{padding:14px;color:#666;font-size:13px;text-align:center}
+.section{background:#0f0f0f;padding:14px;border-radius:12px;margin-top:16px;border:1px solid #1a1a1a;border-left:3px solid #d4af37}
+.section-title{font-size:12.5px;font-weight:700;color:#d4af37;margin-bottom:8px;letter-spacing:1px;text-transform:uppercase}
+.profit-hidden{background:linear-gradient(135deg,#1a1508,#0f0f0f);border:1.5px dashed #d4af37;border-radius:12px;padding:16px;margin-top:16px;text-align:center;cursor:pointer;user-select:none}
+.profit-hidden .txt{font-size:13px;color:#b8941f;letter-spacing:.5px}
+.profit-panel{background:linear-gradient(135deg,#1a1508,#0f0f0f);border:1.5px solid #d4af37;border-radius:12px;padding:16px;margin-top:16px;display:none}
 .profit-panel.show{display:block}
-.profit-panel label{color:#e65100;font-size:12px;margin-top:8px}
-.profit-panel input{padding:10px;font-size:15px;border-color:#f9a825}
-.profit-result{background:#fff;border-radius:8px;padding:12px;margin-top:10px;text-align:center}
-.profit-result .lbl{font-size:12px;color:#666}
-.profit-result .amt{font-size:24px;color:#0a7d5a;font-weight:bold;margin-top:4px}
-.profit-result .per{font-size:11px;color:#888;margin-top:3px}
-.calc-btn{background:#f9a825;color:#fff;padding:10px;margin-top:10px;font-size:14px;border-radius:8px}
-.action-btns{display:flex;gap:8px;margin-top:14px}
-.action-btns button{margin-top:0;padding:12px;font-size:14px}
-.btn-print{background:linear-gradient(135deg,#3498db,#2980b9)}
+.profit-panel label{color:#d4af37;font-size:12px;margin-top:8px}
+.profit-panel input{padding:11px;font-size:15px;border-color:#d4af37;background:#0a0a0a}
+.profit-result{background:#0a0a0a;border-radius:10px;padding:14px;margin-top:12px;text-align:center;border:1px solid #2a2a2a}
+.profit-result .lbl{font-size:11px;color:#888;letter-spacing:1px;text-transform:uppercase}
+.profit-result .amt{font-size:26px;color:#d4af37;font-weight:700;margin-top:6px;font-family:'Playfair Display',Georgia,serif}
+.profit-result .per{font-size:11px;color:#888;margin-top:4px}
+.calc-btn2{background:linear-gradient(135deg,#444,#222);color:#d4af37;padding:10px;margin-top:12px;font-size:13px;border-radius:8px;border:1px solid #d4af37}
+.action-btns{display:flex;gap:10px;margin-top:16px}
+.action-btns button{margin-top:0;padding:13px;font-size:13.5px}
+.btn-print{background:linear-gradient(135deg,#d4af37,#b8941f);color:#0a0a0a}
+.btn-reset{background:linear-gradient(135deg,#2a2a2a,#1a1a1a);color:#c0c0c0;border:1px solid #333}
+.tip{font-size:11px;color:#666;margin-top:14px;line-height:1.7;background:#0a0a0a;padding:12px;border-radius:8px;border-left:2px solid #d4af37}
+.print-detail{display:none}
 @media print{
-  body{background:#fff;padding:0}
-  .box{box-shadow:none;padding:15px;max-width:100%}
+  body{background:#fff;padding:0;color:#000}
+  .box{box-shadow:none;padding:20px;max-width:100%;background:#fff;border:none;border-radius:0}
   h1{color:#000}
   .sub{display:none}
-  label,select,input,.section,.action-btns,.tip,.profit-panel,.profit-hidden,.ac-wrap{display:none !important}
-  .result{display:block !important;background:#fff;border:2px solid #11998e;padding:20px}
-  .hl{background:#f0fff4;border:2px solid #11998e}
+  label,select,input,.section,.action-btns,.tip,.profit-panel,.profit-hidden,.ac-wrap,.calc-btn{display:none !important}
+  .result{display:block !important;background:#fff;border:2px solid #000;padding:24px;color:#000}
+  .hl{background:#f5f5f5;border:2px solid #000}
   .hl .big{color:#000}
-  .print-detail{display:block !important}
+  .hl .sm{color:#000}
+  .row{color:#000;border-bottom:1px dashed #999}
+  .label-txt{color:#000}
+  .value{color:#000}
+  .print-detail{display:block !important;color:#000}
 }
-.print-detail{display:none}
 </style>
 </head>
 <body>
 <div class="box">
-<h1>PHONE VALUE CHECK</h1>
+<h1>ফোন ভ্যালু চেক</h1>
 <p class="sub">2nd Hand Phone Dealer Tool</p>
 
-<label>📱 ফোনের নাম / মডেল</label>
+<label>ফোনের নাম / মডেল</label>
 <div class="ac-wrap">
-  <input type="text" id="phoneInput" placeholder="যেমন: Redmi Note 15 / iPhone 13 / Nothing Phone 2" autocomplete="off">
+  <input type="text" id="phoneInput" placeholder="" autocomplete="off">
   <div class="ac-list" id="acList"></div>
 </div>
 
-<label>💵 Buy Price (নতুন অবস্থায় যত টাকা)</label>
-<input type="number" id="buyPrice" placeholder="যেমন: 28000" inputmode="numeric">
+<label>ক্রয় মূল্য (৳)</label>
+<input type="number" id="buyPrice" placeholder="" inputmode="numeric">
 
 <div class="section">
-<div class="section-title">📋 ফোনের Condition</div>
+<div class="section-title">ফোনের কন্ডিশন</div>
 
-<label>১) Buy Date (কত তারিখে কিনেছে)</label>
+<label>১) ক্রয়ের তারিখ</label>
 <input type="date" id="buyDate">
 
-<label>২) Official / Unofficial</label>
-<select id="officialType" onchange="toggleWarrantySection()">
-<option value="unofficial" selected>❌ Unofficial (Warranty নেই)</option>
-<option value="official">✅ Official (Warranty আছে)</option>
+<label>২) ফোনের ধরন</label>
+<select id="officialType" onchange="toggleWarranty()">
+<option value="unofficial" selected>✘ Unofficial / Warranty নেই</option>
+<option value="official">✔ Official / Warranty আছে</option>
 </select>
 
 <div id="warrantySection" style="display:none">
-  <label>২ক) Warranty কত মাস বাকি?</label>
-  <select id="warrantyMonths">
-    <option value="6">৬+ মাস বাকি</option>
-    <option value="4">৩-৬ মাস বাকি</option>
-    <option value="2">১-৩ মাস বাকি</option>
-  </select>
+  <label>২ক) Warranty কত মাস বাকি? (১-১২)</label>
+  <input type="number" id="warrantyMonths" placeholder="" inputmode="numeric" min="1" max="12">
 </div>
 
-<label>৩) Phone খোলা হয়েছে কি?</label>
+<label>৩) ফোন খোলা হয়েছে?</label>
 <select id="opened">
-<option value="0" selected>❌ না, কখনো খোলা হয়নি</option>
-<option value="1">⚠️ হ্যাঁ, ১ বার</option>
-<option value="2">⚠️ হ্যাঁ, ২ বার</option>
-<option value="3">❌ হ্যাঁ, ৩+ বার</option>
+<option value="0" selected>✘ না, কখনো খোলা হয়নি</option>
+<option value="1">✔ হ্যাঁ, ১ বার</option>
+<option value="2">✔ হ্যাঁ, ২ বার</option>
+<option value="3">✔ হ্যাঁ, ৩+ বার</option>
 </select>
 
-<label>৪) Battery Health</label>
+<label>৪) ব্যাটারি হেলথ</label>
 <select id="battery">
-<option value="0" selected>✅ Excellent (৯৫%+)</option>
-<option value="1">👍 Very Good (৯০-৯৫%)</option>
-<option value="2">Good (৮৫-৯০%)</option>
-<option value="3">Fair (৮০-৮৫%)</option>
-<option value="4">Medium (৭৫-৮০%)</option>
-<option value="5">Poor (৭০-৭৫%)</option>
-<option value="6">❌ Bad (৭০% এর নিচে)</option>
+<option value="0" selected>✔ Excellent (৯৫%+)</option>
+<option value="1">✔ Very Good (৯০-৯৫%)</option>
+<option value="2">✔ Good (৮৫-৯০%)</option>
+<option value="3">✔ Fair (৮০-৮৫%)</option>
+<option value="4">✔ Medium (৭৫-৮০%)</option>
+<option value="5">✔ Poor (৭০-৭৫%)</option>
+<option value="6">✘ Bad (৭০% এর নিচে)</option>
 </select>
 
-<label>৫) Scratch Status</label>
+<label>৫) স্ক্র্যাচ স্ট্যাটাস</label>
 <select id="scratch">
-<option value="0" selected>✨ Fresh (একদম পরিষ্কার)</option>
-<option value="1">Low (সামান্য দাগ)</option>
-<option value="2">Medium (মোটামুটি)</option>
-<option value="3">High (অনেক দাগ)</option>
+<option value="0" selected>✔ Fresh (একদম পরিষ্কার)</option>
+<option value="1">✔ Low (সামান্য দাগ)</option>
+<option value="2">✔ Medium (মোটামুটি)</option>
+<option value="3">✘ High (অনেক দাগ)</option>
 </select>
 
-<label>৬) Camera Condition</label>
+<label>৬) ক্যামেরা কন্ডিশন</label>
 <select id="camera">
-<option value="0" selected>✅ Good (ঠিক আছে)</option>
-<option value="1">⚠️ Medium (সামান্য সমস্যা)</option>
-<option value="2">❌ Bad (সমস্যা আছে)</option>
+<option value="0" selected>✔ Good (ঠিক আছে)</option>
+<option value="1">✔ Medium (সামান্য সমস্যা)</option>
+<option value="2">✘ Bad (সমস্যা আছে)</option>
 </select>
 
-<label>৭) Display Condition</label>
+<label>৭) ডিসপ্লে কন্ডিশন</label>
 <select id="display">
-<option value="0" selected>✅ Original, ঠিক আছে</option>
-<option value="1">⚠️ Original, কিন্তু সমস্যা</option>
-<option value="2">❌ Change করা হয়েছে</option>
+<option value="0" selected>✔ Original, ঠিক আছে</option>
+<option value="1">✔ Original, কিন্তু সমস্যা</option>
+<option value="2">✘ Change করা হয়েছে</option>
 </select>
 
-<label>৮) Overall Check</label>
+<label>৮) সামগ্রিক অবস্থা</label>
 <select id="overall">
-<option value="0">✅ OK</option>
-<option value="1" selected>👍 Good</option>
-<option value="2">⚠️ Medium</option>
-<option value="3">❌ Poor</option>
+<option value="0">✔ OK</option>
+<option value="1" selected>✔ Good</option>
+<option value="2">✔ Medium</option>
+<option value="3">✘ Poor</option>
 </select>
 
-<label>৯) Box আছে কি?</label>
+<label>৯) বক্স আছে?</label>
 <select id="boxItem">
-<option value="0" selected>✅ হ্যাঁ, Original Box আছে</option>
-<option value="1">⚠️ Box আছে কিন্তু original না</option>
-<option value="2">❌ না, Box নেই</option>
+<option value="0" selected>✔ হ্যাঁ, Original Box আছে</option>
+<option value="1">✔ Box আছে কিন্তু original না</option>
+<option value="2">✘ না, Box নেই</option>
 </select>
 
-<label>১০) Charger আছে কি?</label>
+<label>১০) চার্জার আছে?</label>
 <select id="chargerItem">
-<option value="0" selected>✅ হ্যাঁ, Original Charger আছে</option>
-<option value="1">⚠️ Charger আছে কিন্তু original না</option>
-<option value="2">❌ না, Charger নেই</option>
+<option value="0" selected>✔ হ্যাঁ, Original Charger আছে</option>
+<option value="1">✔ Charger আছে কিন্তু original না</option>
+<option value="2">✘ না, Charger নেই</option>
 </select>
 
 </div>
 
-<button onclick="calculate()">💡 Expected Price দেখুন</button>
+<button class="calc-btn" onclick="calculate()">মূল্য দেখুন</button>
 <div class="result" id="result"></div>
 </div>
 
 <script>
 // ===== Phone Database =====
 var PHONES=[
-// Category A
-["iPhone 16 Pro Max","A"],["iPhone 16 Pro","A"],["iPhone 16 Plus","A"],["iPhone 16","A"],
-["iPhone 15 Pro Max","A"],["iPhone 15 Pro","A"],["iPhone 15 Plus","A"],["iPhone 15","A"],
-["iPhone 14 Pro Max","A"],["iPhone 14 Pro","A"],["iPhone 14 Plus","A"],["iPhone 14","A"],
-["iPhone 13 Pro Max","A"],["iPhone 13 Pro","A"],["iPhone 13","A"],["iPhone 13 mini","A"],
-["iPhone 12 Pro Max","A"],["iPhone 12 Pro","A"],["iPhone 12","A"],["iPhone 12 mini","A"],
-["iPhone 11 Pro Max","A"],["iPhone 11 Pro","A"],["iPhone 11","A"],
-["iPhone XS Max","A"],["iPhone XS","A"],["iPhone XR","A"],["iPhone X","A"],
-["iPhone 8 Plus","A"],["iPhone 8","A"],["iPhone 7 Plus","A"],["iPhone 7","A"],
-["iPhone SE 2022","A"],["iPhone SE 2020","A"],
-["Galaxy S24 Ultra","A"],["Galaxy S24+","A"],["Galaxy S24","A"],
-["Galaxy S23 Ultra","A"],["Galaxy S23+","A"],["Galaxy S23","A"],["Galaxy S23 FE","A"],
-["Galaxy S22 Ultra","A"],["Galaxy S22+","A"],["Galaxy S22","A"],
-["Galaxy S21 Ultra","A"],["Galaxy S21+","A"],["Galaxy S21","A"],["Galaxy S21 FE","A"],
-["Galaxy S20 Ultra","A"],["Galaxy S20+","A"],["Galaxy S20","A"],["Galaxy S20 FE","A"],
-["Galaxy S10+","A"],["Galaxy S10","A"],["Galaxy S10e","A"],
-["Galaxy Z Fold 6","A"],["Galaxy Z Fold 5","A"],["Galaxy Z Fold 4","A"],["Galaxy Z Fold 3","A"],
-["Galaxy Z Flip 6","A"],["Galaxy Z Flip 5","A"],["Galaxy Z Flip 4","A"],["Galaxy Z Flip 3","A"],
-["Nothing Phone 3","A"],["Nothing Phone 2a Plus","A"],["Nothing Phone 2a","A"],["Nothing Phone 2","A"],["Nothing Phone 1","A"],
-["Pixel 9 Pro XL","A"],["Pixel 9 Pro","A"],["Pixel 9","A"],["Pixel 9a","A"],
-["Pixel 8 Pro","A"],["Pixel 8","A"],["Pixel 8a","A"],["Pixel 7 Pro","A"],["Pixel 7","A"],["Pixel 7a","A"],
-["Pixel 6 Pro","A"],["Pixel 6","A"],["Pixel 6a","A"],
-["OnePlus 13","A"],["OnePlus 12","A"],["OnePlus 12R","A"],["OnePlus 11","A"],["OnePlus 11R","A"],
-["OnePlus 10 Pro","A"],["OnePlus 10T","A"],["OnePlus 9 Pro","A"],["OnePlus 9","A"],
-["Sony Xperia 1 VI","A"],["Sony Xperia 1 V","A"],["Sony Xperia 5 V","A"],["Sony Xperia 10 V","A"],
-["Asus ROG Phone 8 Pro","A"],["Asus ROG Phone 7","A"],["Asus ROG Phone 6","A"],
-["Xiaomi 14 Ultra","A"],["Xiaomi 14","A"],["Xiaomi 13 Pro","A"],["Xiaomi 13","A"],["Xiaomi 12 Pro","A"],["Xiaomi 12","A"],
-["Realme GT 6","A"],["Realme GT 5","A"],["Realme GT Neo 3","A"],
-["Oppo Find X8 Pro","A"],["Oppo Find X8","A"],["Oppo Find X7 Ultra","A"],["Oppo Find X6 Pro","A"],["Oppo Find X3 Pro","A"],
-["Vivo X200 Pro","A"],["Vivo X200","A"],["Vivo X100 Pro","A"],["Vivo X100","A"],["Vivo X90 Pro","A"],["Vivo X90","A"],
-["Moto Edge 50 Pro","A"],["Moto Edge 50","A"],["Moto Edge 40 Pro","A"],["Moto Edge 40","A"],["Moto Edge 30 Pro","A"],["Moto Edge 30","A"],
-// Category B
-["Galaxy A55","B"],["Galaxy A54","B"],["Galaxy A53","B"],["Galaxy A52","B"],["Galaxy A52s","B"],
-["Galaxy A51","B"],["Galaxy A50","B"],["Galaxy A35","B"],["Galaxy A34","B"],["Galaxy A33","B"],["Galaxy A32","B"],
-["Galaxy A25","B"],["Galaxy A24","B"],["Galaxy A23","B"],["Galaxy A22","B"],
-["Galaxy A15","B"],["Galaxy A14","B"],["Galaxy A13","B"],["Galaxy A12","B"],
-["Galaxy A05s","B"],["Galaxy A05","B"],["Galaxy A04s","B"],["Galaxy A04","B"],["Galaxy A03","B"],
-["Galaxy M35","B"],["Galaxy M34","B"],["Galaxy M33","B"],["Galaxy M32","B"],["Galaxy M31","B"],
-["Galaxy M21","B"],["Galaxy M14","B"],["Galaxy M13","B"],["Galaxy M12","B"],
-["Galaxy F54","B"],["Galaxy F34","B"],["Galaxy F14","B"],
-["Redmi Note 14 Pro","B"],["Redmi Note 14","B"],["Redmi Note 13 Pro+","B"],["Redmi Note 13 Pro","B"],["Redmi Note 13","B"],
-["Redmi Note 12 Pro+","B"],["Redmi Note 12 Pro","B"],["Redmi Note 12","B"],["Redmi Note 12S","B"],
-["Redmi Note 11 Pro+","B"],["Redmi Note 11 Pro","B"],["Redmi Note 11","B"],["Redmi Note 11S","B"],
-["Redmi Note 10 Pro","B"],["Redmi Note 10","B"],["Redmi Note 10S","B"],
-["Redmi Note 9 Pro","B"],["Redmi Note 9","B"],["Redmi Note 9S","B"],
-["Redmi Note 8 Pro","B"],["Redmi Note 8","B"],["Redmi Note 7 Pro","B"],["Redmi Note 7","B"],
-["Redmi 14C","B"],["Redmi 13C","B"],["Redmi 12C","B"],["Redmi 12","B"],
-["Redmi 10","B"],["Redmi 10C","B"],["Redmi 10A","B"],["Redmi 9","B"],["Redmi 9C","B"],["Redmi 9A","B"],
-["Redmi 8","B"],["Redmi 8A","B"],["Redmi 7","B"],["Redmi 7A","B"],
-["Redmi A4","B"],["Redmi A3","B"],["Redmi A2","B"],["Redmi A1","B"],
-["POCO X7 Pro","B"],["POCO X7","B"],["POCO X6 Pro","B"],["POCO X6","B"],["POCO X5 Pro","B"],["POCO X5","B"],["POCO X4 Pro","B"],["POCO X3 Pro","B"],["POCO X3 NFC","B"],
-["POCO M7 Pro","B"],["POCO M6 Pro","B"],["POCO M6","B"],["POCO M5","B"],["POCO M4 Pro","B"],["POCO M3","B"],
-["POCO F6 Pro","B"],["POCO F6","B"],["POCO F5 Pro","B"],["POCO F5","B"],["POCO F4","B"],["POCO F3","B"],
-["POCO C75","B"],["POCO C65","B"],["POCO C55","B"],["POCO C50","B"],
-["Realme 14 Pro+","B"],["Realme 14 Pro","B"],["Realme 13 Pro+","B"],["Realme 13 Pro","B"],["Realme 13+","B"],["Realme 13","B"],
-["Realme 12 Pro+","B"],["Realme 12 Pro","B"],["Realme 12+","B"],["Realme 12","B"],
-["Realme 11 Pro+","B"],["Realme 11 Pro","B"],["Realme 11","B"],["Realme 11x","B"],
-["Realme 10 Pro+","B"],["Realme 10 Pro","B"],["Realme 10","B"],
-["Realme 9 Pro+","B"],["Realme 9 Pro","B"],["Realme 9","B"],["Realme 9i","B"],
-["Realme 8 Pro","B"],["Realme 8","B"],["Realme 8i","B"],["Realme 7 Pro","B"],["Realme 7","B"],["Realme 7i","B"],
-["Realme 6 Pro","B"],["Realme 6","B"],["Realme 6i","B"],["Realme 5 Pro","B"],["Realme 5","B"],["Realme 5i","B"],
-["Realme C75","B"],["Realme C67","B"],["Realme C55","B"],["Realme C53","B"],["Realme C51","B"],
-["Realme C35","B"],["Realme C33","B"],["Realme C31","B"],["Realme C25","B"],["Realme C25s","B"],["Realme C21","B"],["Realme C15","B"],["Realme C11","B"],
-["Realme Narzo 70 Pro","B"],["Realme Narzo 70","B"],["Realme Narzo 60 Pro","B"],["Realme Narzo 60","B"],
-["Realme Narzo 50 Pro","B"],["Realme Narzo 50","B"],["Realme Narzo 30","B"],["Realme Narzo 20","B"],["Realme Narzo 10","B"],
-["Oppo Reno 13 Pro","B"],["Oppo Reno 13","B"],["Oppo Reno 12 Pro","B"],["Oppo Reno 12","B"],["Oppo Reno 11 Pro","B"],["Oppo Reno 11","B"],
-["Oppo Reno 10 Pro+","B"],["Oppo Reno 10 Pro","B"],["Oppo Reno 10","B"],
-["Oppo Reno 8 Pro","B"],["Oppo Reno 8","B"],["Oppo Reno 8T","B"],["Oppo Reno 7 Pro","B"],["Oppo Reno 7","B"],
-["Oppo Reno 6 Pro","B"],["Oppo Reno 6","B"],["Oppo Reno 5","B"],["Oppo Reno 5 Pro","B"],
-["Oppo Reno 4 Pro","B"],["Oppo Reno 4","B"],["Oppo Reno 3 Pro","B"],["Oppo Reno 3","B"],["Oppo Reno 2","B"],
-["Oppo A98","B"],["Oppo A97","B"],["Oppo A96","B"],["Oppo A95","B"],["Oppo A94","B"],["Oppo A93","B"],["Oppo A92","B"],
-["Oppo A78","B"],["Oppo A77","B"],["Oppo A76","B"],["Oppo A74","B"],["Oppo A73","B"],["Oppo A72","B"],
-["Oppo A57","B"],["Oppo A55","B"],["Oppo A54","B"],["Oppo A53","B"],["Oppo A52","B"],["Oppo A51","B"],
-["Oppo A38","B"],["Oppo A18","B"],["Oppo A17","B"],["Oppo A16","B"],["Oppo A15","B"],["Oppo A12","B"],["Oppo A11","B"],["Oppo A9","B"],["Oppo A5s","B"],["Oppo A5","B"],["Oppo A3s","B"],["Oppo A3 Pro","B"],["Oppo A1k","B"],
-["Vivo V40 Pro","B"],["Vivo V40","B"],["Vivo V30 Pro","B"],["Vivo V30","B"],["Vivo V29 Pro","B"],["Vivo V29","B"],["Vivo V27 Pro","B"],["Vivo V27","B"],
-["Vivo V25 Pro","B"],["Vivo V25","B"],["Vivo V23 Pro","B"],["Vivo V23","B"],["Vivo V21","B"],["Vivo V20 Pro","B"],["Vivo V20","B"],
-["Vivo V19","B"],["Vivo V17 Pro","B"],["Vivo V15 Pro","B"],
-["Vivo Y200","B"],["Vivo Y100","B"],["Vivo Y78","B"],["Vivo Y77","B"],["Vivo Y76","B"],["Vivo Y75","B"],["Vivo Y73","B"],["Vivo Y72","B"],["Vivo Y56","B"],["Vivo Y55","B"],
-["Vivo Y53s","B"],["Vivo Y36","B"],["Vivo Y35","B"],["Vivo Y33s","B"],["Vivo Y33","B"],["Vivo Y31","B"],["Vivo Y30","B"],["Vivo Y28","B"],["Vivo Y27","B"],["Vivo Y22","B"],
-["Vivo Y21","B"],["Vivo Y20","B"],["Vivo Y19","B"],["Vivo Y17","B"],["Vivo Y16","B"],["Vivo Y15","B"],["Vivo Y12","B"],["Vivo Y11","B"],["Vivo Y02","B"],["Vivo Y01","B"],
-["OnePlus Nord 3","B"],["OnePlus Nord 2T","B"],["OnePlus Nord CE 3","B"],["OnePlus Nord CE 2","B"],["OnePlus Nord N30","B"],
-["Huawei P60 Pro","B"],["Huawei P50 Pro","B"],["Huawei P40 Pro","B"],["Huawei P30 Pro","B"],
-["Huawei Mate 60 Pro","B"],["Huawei Mate 50 Pro","B"],["Huawei Mate 40 Pro","B"],
-["Huawei Nova 12","B"],["Huawei Nova 11","B"],["Huawei Nova 10","B"],["Huawei Nova 9","B"],["Huawei Nova 8","B"],["Huawei Nova 7","B"],["Huawei Nova 5T","B"],
-["Huawei Y9a","B"],["Huawei Y9s","B"],["Huawei Y8p","B"],["Huawei Y7a","B"],
-["Honor Magic 6 Pro","B"],["Honor Magic 5 Pro","B"],["Honor 90","B"],["Honor 70","B"],["Honor 50","B"],["Honor X9b","B"],["Honor X9a","B"],["Honor X8","B"],["Honor X7","B"],
-["Moto G84 5G","B"],["Moto G73 5G","B"],["Moto G72","B"],["Moto G62 5G","B"],["Moto G52","B"],["Moto G42","B"],["Moto G32","B"],["Moto G31","B"],["Moto G30","B"],
-["Moto E13","B"],["Moto E22","B"],
-["Nokia G42 5G","B"],["Nokia G60 5G","B"],["Nokia G50","B"],["Nokia G21","B"],["Nokia G20","B"],["Nokia G10","B"],
-["Nokia X30 5G","B"],["Nokia X20","B"],["Nokia X10","B"],
-["Nokia C32","B"],["Nokia C31","B"],["Nokia C30","B"],["Nokia C21 Plus","B"],["Nokia C21","B"],["Nokia C20","B"],["Nokia C12","B"],["Nokia C10","B"],
-["CMF Phone 1","B"],
-["Asus Zenfone 10","B"],["Asus Zenfone 9","B"],
-["Mi 11X","B"],["Mi 11 Lite","B"],["Mi 10T Pro","B"],["Mi 10T","B"],["Mi 10","B"],
-// Category C
-["Tecno Phantom V Fold 2","C"],["Tecno Phantom V Fold","C"],["Tecno Phantom X2 Pro","C"],["Tecno Phantom X2","C"],
-["Tecno Camon 40 Pro","C"],["Tecno Camon 40","C"],["Tecno Camon 30 Pro","C"],["Tecno Camon 30","C"],["Tecno Camon 20 Pro","C"],["Tecno Camon 20","C"],
-["Tecno Camon 19 Pro","C"],["Tecno Camon 19","C"],["Tecno Camon 18","C"],["Tecno Camon 17","C"],["Tecno Camon 16","C"],["Tecno Camon 15","C"],
-["Tecno Spark 30 Pro","C"],["Tecno Spark 30","C"],["Tecno Spark 20 Pro+","C"],["Tecno Spark 20 Pro","C"],["Tecno Spark 20","C"],["Tecno Spark 20C","C"],
-["Tecno Spark 10 Pro","C"],["Tecno Spark 10","C"],["Tecno Spark 10C","C"],["Tecno Spark 9","C"],["Tecno Spark 9 Pro","C"],["Tecno Spark 8","C"],["Tecno Spark 8C","C"],["Tecno Spark 7","C"],["Tecno Spark 6","C"],
-["Tecno Spark Go 2024","C"],["Tecno Spark Go 2023","C"],["Tecno Pop 8","C"],["Tecno Pop 7","C"],["Tecno Pop 6","C"],
-["Infinix Zero 40","C"],["Infinix Zero 30 5G","C"],["Infinix Zero 30","C"],["Infinix Zero 20","C"],
-["Infinix Note 50 Pro","C"],["Infinix Note 50","C"],["Infinix Note 40 Pro","C"],["Infinix Note 40","C"],["Infinix Note 30 Pro","C"],["Infinix Note 30","C"],["Infinix Note 30i","C"],
-["Infinix Note 12 Pro","C"],["Infinix Note 12","C"],["Infinix Note 12i","C"],["Infinix Note 11","C"],["Infinix Note 11S","C"],["Infinix Note 10 Pro","C"],["Infinix Note 10","C"],
-["Infinix Hot 50 Pro","C"],["Infinix Hot 50","C"],["Infinix Hot 40 Pro","C"],["Infinix Hot 40i","C"],["Infinix Hot 40","C"],["Infinix Hot 30","C"],["Infinix Hot 30i","C"],["Infinix Hot 30 Play","C"],
-["Infinix Hot 20","C"],["Infinix Hot 20i","C"],["Infinix Hot 20S","C"],["Infinix Hot 12","C"],["Infinix Hot 12i","C"],["Infinix Hot 11","C"],["Infinix Hot 11S","C"],["Infinix Hot 10","C"],["Infinix Hot 10S","C"],
-["Infinix Smart 9","C"],["Infinix Smart 8","C"],["Infinix Smart 8 Pro","C"],["Infinix Smart 7","C"],["Infinix Smart 7 HD","C"],["Infinix Smart 6","C"],["Infinix Smart 5","C"],
-// Category D
-["itel P65","D"],["itel P55 5G","D"],["itel P55","D"],["itel P40","D"],["itel P38","D"],["itel P37","D"],["itel P36","D"],
-["itel S24","D"],["itel S23+","D"],["itel S23","D"],["itel S18","D"],
-["itel A80","D"],["itel A70","D"],["itel A60s","D"],["itel A60","D"],["itel A49","D"],["itel A48","D"],["itel A27","D"],["itel A25","D"],["itel A23 Pro","D"],["itel A23","D"],
-["itel Vision 5","D"],["itel Vision 3","D"],["itel Vision 2","D"],["itel Vision 1","D"],["itel City 100","D"],
-["Walton Primo RX9","D"],["Walton Primo RX8","D"],["Walton Primo RX7","D"],["Walton Primo RX6","D"],
-["Walton Primo R9","D"],["Walton Primo R8","D"],["Walton Primo R7","D"],["Walton Primo R6 Max","D"],["Walton Primo R6","D"],
-["Walton Primo S8","D"],["Walton Primo S7","D"],["Walton Primo S6","D"],
-["Walton Primo N6","D"],["Walton Primo N5","D"],["Walton Primo N4","D"],
-["Walton Primo H10","D"],["Walton Primo H9","D"],["Walton Primo H8","D"],["Walton Primo H7","D"],
-["Walton Primo GH11","D"],["Walton Primo GH10","D"],["Walton Primo GH9","D"],
-["Walton Primo EF12","D"],["Walton Primo EF11","D"],["Walton Primo E12","D"],["Walton Primo E11","D"],["Walton Primo E10","D"],
-["Symphony Innova 30","D"],["Symphony Innova 20","D"],
-["Symphony Z60","D"],["Symphony Z55","D"],["Symphony Z47","D"],["Symphony Z45","D"],["Symphony Z35","D"],["Symphony Z33","D"],["Symphony Z30","D"],
-["Symphony Atom 3","D"],["Symphony Atom 2","D"],["Symphony G100","D"],["Symphony G10","D"],
-["Symphony V150","D"],["Symphony V140","D"],["Symphony V135","D"],["Symphony V128","D"],
-["Symphony B57","D"],["Symphony B50","D"],["Symphony i74","D"],["Symphony i72","D"],["Symphony i69","D"],["Symphony i68","D"],["Symphony D100","D"],["Symphony D85","D"],
-["Lava Agni 3","D"],["Lava Agni 2 5G","D"],["Lava Blaze 5G","D"],["Lava Blaze 3 5G","D"],["Lava Blaze 2 5G","D"],["Lava Blaze 2","D"],["Lava Blaze","D"],["Lava Yuva 3 Pro","D"],["Lava Yuva 3","D"],["Lava Yuva 2","D"]
+// Apple
+"iPhone 16 Pro Max","iPhone 16 Pro","iPhone 16 Plus","iPhone 16",
+"iPhone 15 Pro Max","iPhone 15 Pro","iPhone 15 Plus","iPhone 15",
+"iPhone 14 Pro Max","iPhone 14 Pro","iPhone 14 Plus","iPhone 14",
+"iPhone 13 Pro Max","iPhone 13 Pro","iPhone 13","iPhone 13 mini",
+"iPhone 12 Pro Max","iPhone 12 Pro","iPhone 12","iPhone 12 mini",
+"iPhone 11 Pro Max","iPhone 11 Pro","iPhone 11",
+"iPhone XS Max","iPhone XS","iPhone XR","iPhone X",
+"iPhone 8 Plus","iPhone 8","iPhone 7 Plus","iPhone 7",
+"iPhone SE 2022","iPhone SE 2020","iPhone 6S Plus","iPhone 6S",
+// Samsung
+"Galaxy S24 Ultra","Galaxy S24+","Galaxy S24","Galaxy S23 Ultra","Galaxy S23+","Galaxy S23","Galaxy S23 FE",
+"Galaxy S22 Ultra","Galaxy S22+","Galaxy S22","Galaxy S21 Ultra","Galaxy S21+","Galaxy S21","Galaxy S21 FE",
+"Galaxy S20 Ultra","Galaxy S20+","Galaxy S20","Galaxy S20 FE",
+"Galaxy S10+","Galaxy S10","Galaxy S10e","Galaxy S10 Lite","Galaxy S9+","Galaxy S9","Galaxy S8+","Galaxy S8",
+"Galaxy Note 20 Ultra","Galaxy Note 20","Galaxy Note 10+","Galaxy Note 10","Galaxy Note 9","Galaxy Note 8",
+"Galaxy Z Fold 6","Galaxy Z Fold 5","Galaxy Z Fold 4","Galaxy Z Fold 3","Galaxy Z Fold 2",
+"Galaxy Z Flip 6","Galaxy Z Flip 5","Galaxy Z Flip 4","Galaxy Z Flip 3",
+"Galaxy A73","Galaxy A72","Galaxy A71","Galaxy A70","Galaxy A55","Galaxy A54","Galaxy A53","Galaxy A52","Galaxy A52s",
+"Galaxy A51","Galaxy A50","Galaxy A50s","Galaxy A35","Galaxy A34","Galaxy A33","Galaxy A32","Galaxy A25","Galaxy A24","Galaxy A23","Galaxy A22",
+"Galaxy A15","Galaxy A14","Galaxy A13","Galaxy A12","Galaxy A05s","Galaxy A05","Galaxy A04s","Galaxy A04","Galaxy A03","Galaxy A02s",
+"Galaxy M55","Galaxy M54","Galaxy M53","Galaxy M52","Galaxy M35","Galaxy M34","Galaxy M33","Galaxy M32","Galaxy M31","Galaxy M21","Galaxy M14","Galaxy M13","Galaxy M12","Galaxy M11",
+"Galaxy F54","Galaxy F34","Galaxy F14","Galaxy F13","Galaxy F12",
+// Xiaomi / Redmi / POCO
+"Redmi Note 15 Pro+","Redmi Note 15 Pro","Redmi Note 15","Redmi Note 15 5G",
+"Redmi Note 14 Pro+","Redmi Note 14 Pro","Redmi Note 14","Redmi Note 14 5G",
+"Redmi Note 13 Pro+","Redmi Note 13 Pro","Redmi Note 13","Redmi Note 13 5G",
+"Redmi Note 12 Pro+","Redmi Note 12 Pro","Redmi Note 12","Redmi Note 12S","Redmi Note 12 5G",
+"Redmi Note 11 Pro+","Redmi Note 11 Pro","Redmi Note 11","Redmi Note 11S","Redmi Note 11E",
+"Redmi Note 10 Pro","Redmi Note 10","Redmi Note 10S","Redmi Note 10 Lite",
+"Redmi Note 9 Pro","Redmi Note 9","Redmi Note 9S","Redmi Note 9 Pro Max",
+"Redmi Note 8 Pro","Redmi Note 8","Redmi Note 8 2021","Redmi Note 7 Pro","Redmi Note 7",
+"Redmi 15C","Redmi 14C","Redmi 13C","Redmi 12C","Redmi 12","Redmi 11 Prime","Redmi 10","Redmi 10C","Redmi 10A","Redmi 10 Prime",
+"Redmi 9","Redmi 9C","Redmi 9A","Redmi 9 Prime","Redmi 9T","Redmi 9 Power",
+"Redmi 8","Redmi 8A","Redmi 8A Dual","Redmi 7","Redmi 7A","Redmi 6","Redmi 6A","Redmi 6 Pro",
+"Redmi A4","Redmi A3","Redmi A3x","Redmi A2","Redmi A2+","Redmi A1","Redmi A1+",
+"Xiaomi 15 Ultra","Xiaomi 15 Pro","Xiaomi 15","Xiaomi 14 Ultra","Xiaomi 14","Xiaomi 13 Pro","Xiaomi 13","Xiaomi 13 Lite",
+"Xiaomi 12 Pro","Xiaomi 12","Xiaomi 12X","Xiaomi 12 Lite","Xiaomi 11T Pro","Xiaomi 11T","Xiaomi 11 Lite NE","Xiaomi 11i",
+"Mi 11X","Mi 11X Pro","Mi 11 Lite","Mi 11 Ultra","Mi 10T Pro","Mi 10T","Mi 10T Lite","Mi 10","Mi 10i","Mi 9","Mi 9 SE","Mi 9T",
+"POCO X7 Pro","POCO X7","POCO X6 Pro","POCO X6","POCO X6 Neo","POCO X5 Pro","POCO X5","POCO X4 Pro","POCO X4 GT","POCO X3 Pro","POCO X3 NFC","POCO X3",
+"POCO M7 Pro","POCO M6 Pro","POCO M6","POCO M6 Plus","POCO M5","POCO M5s","POCO M4 Pro","POCO M4","POCO M3","POCO M2 Pro","POCO M2",
+"POCO F7","POCO F6 Pro","POCO F6","POCO F5 Pro","POCO F5","POCO F4","POCO F4 GT","POCO F3","POCO F2 Pro","POCO F1",
+"POCO C75","POCO C65","POCO C61","POCO C55","POCO C51","POCO C50","POCO C40","POCO C31","POCO C3",
+// Realme
+"Realme 15 Pro","Realme 15","Realme 14 Pro+","Realme 14 Pro","Realme 14","Realme 14x",
+"Realme 13 Pro+","Realme 13 Pro","Realme 13+","Realme 13","Realme 13 5G",
+"Realme 12 Pro+","Realme 12 Pro","Realme 12+","Realme 12","Realme 12x","Realme 12 5G",
+"Realme 11 Pro+","Realme 11 Pro","Realme 11","Realme 11x","Realme 11 5G",
+"Realme 10 Pro+","Realme 10 Pro","Realme 10","Realme 10s",
+"Realme 9 Pro+","Realme 9 Pro","Realme 9","Realme 9i","Realme 9 5G","Realme 9 SE",
+"Realme 8 Pro","Realme 8","Realme 8i","Realme 8s","Realme 8 5G",
+"Realme 7 Pro","Realme 7","Realme 7i","Realme 6 Pro","Realme 6","Realme 6i","Realme 5 Pro","Realme 5","Realme 5i","Realme 5s",
+"Realme C75","Realme C67","Realme C65","Realme C63","Realme C61","Realme C55","Realme C53","Realme C51","Realme C35","Realme C33","Realme C31","Realme C30","Realme C25","Realme C25s","Realme C25Y","Realme C21","Realme C21Y","Realme C20","Realme C15","Realme C12","Realme C11","Realme C3","Realme C2",
+"Realme Narzo 80 Pro","Realme Narzo 80","Realme Narzo 70 Pro","Realme Narzo 70","Realme Narzo 70x","Realme Narzo 60 Pro","Realme Narzo 60","Realme Narzo 60x",
+"Realme Narzo 50 Pro","Realme Narzo 50","Realme Narzo 50A","Realme Narzo 50i","Realme Narzo 30 Pro","Realme Narzo 30","Realme Narzo 30A","Realme Narzo 30 5G","Realme Narzo 20 Pro","Realme Narzo 20","Realme Narzo 20A","Realme Narzo 10","Realme Narzo 10A",
+"Realme GT 7 Pro","Realme GT 7","Realme GT 6","Realme GT 6T","Realme GT 5","Realme GT 5 Pro","Realme GT Neo 5","Realme GT Neo 3","Realme GT Neo 3T","Realme GT Neo 2","Realme GT Master","Realme GT",
+// Oppo
+"Oppo Find X8 Pro","Oppo Find X8","Oppo Find X7 Ultra","Oppo Find X7","Oppo Find X6 Pro","Oppo Find X6","Oppo Find X5 Pro","Oppo Find X5","Oppo Find X3 Pro","Oppo Find X3","Oppo Find X2 Pro","Oppo Find X2",
+"Oppo Reno 13 Pro","Oppo Reno 13","Oppo Reno 12 Pro","Oppo Reno 12","Oppo Reno 12F","Oppo Reno 11 Pro","Oppo Reno 11","Oppo Reno 11F","Oppo Reno 10 Pro+","Oppo Reno 10 Pro","Oppo Reno 10","Oppo Reno 8 Pro","Oppo Reno 8","Oppo Reno 8T","Oppo Reno 7 Pro","Oppo Reno 7","Oppo Reno 6 Pro","Oppo Reno 6","Oppo Reno 5","Oppo Reno 5 Pro","Oppo Reno 4 Pro","Oppo Reno 4","Oppo Reno 3 Pro","Oppo Reno 3","Oppo Reno 2","Oppo Reno 2F",
+"Oppo A98","Oppo A97","Oppo A96","Oppo A95","Oppo A94","Oppo A93","Oppo A92","Oppo A79","Oppo A78","Oppo A77","Oppo A76","Oppo A74","Oppo A73","Oppo A72","Oppo A59","Oppo A58","Oppo A57","Oppo A55","Oppo A54","Oppo A53","Oppo A52","Oppo A51","Oppo A38","Oppo A18","Oppo A17","Oppo A17K","Oppo A16","Oppo A15","Oppo A15s","Oppo A12","Oppo A11","Oppo A9","Oppo A5s","Oppo A5","Oppo A3s","Oppo A3 Pro","Oppo A1k","Oppo A1 Pro",
+// Vivo
+"Vivo X200 Pro","Vivo X200","Vivo X200 Mini","Vivo X100 Pro","Vivo X100","Vivo X90 Pro","Vivo X90","Vivo X80 Pro","Vivo X80","Vivo X70 Pro","Vivo X70","Vivo X60 Pro","Vivo X60","Vivo X50 Pro","Vivo X50",
+"Vivo V40 Pro","Vivo V40","Vivo V40 SE","Vivo V30 Pro","Vivo V30","Vivo V30e","Vivo V30 Lite","Vivo V29 Pro","Vivo V29","Vivo V29e","Vivo V29 Lite","Vivo V27 Pro","Vivo V27","Vivo V27e","Vivo V25 Pro","Vivo V25","Vivo V25e","Vivo V23 Pro","Vivo V23","Vivo V23e","Vivo V21","Vivo V21e","Vivo V20 Pro","Vivo V20","Vivo V20 SE","Vivo V19","Vivo V17 Pro","Vivo V15 Pro","Vivo V11 Pro","Vivo V9",
+"Vivo Y200","Vivo Y100","Vivo Y100A","Vivo Y78","Vivo Y78+","Vivo Y77","Vivo Y76","Vivo Y75","Vivo Y73","Vivo Y72","Vivo Y56","Vivo Y55","Vivo Y53s","Vivo Y36","Vivo Y35","Vivo Y33s","Vivo Y33","Vivo Y31","Vivo Y30","Vivo Y28","Vivo Y27","Vivo Y22","Vivo Y21","Vivo Y21s","Vivo Y20","Vivo Y20s","Vivo Y19","Vivo Y17","Vivo Y16","Vivo Y15","Vivo Y12","Vivo Y11","Vivo Y02","Vivo Y01","Vivo Y91","Vivo Y95","Vivo Y93",
+// OnePlus
+"OnePlus 13","OnePlus 13R","OnePlus 12","OnePlus 12R","OnePlus 11","OnePlus 11R","OnePlus 10 Pro","OnePlus 10T","OnePlus 10R","OnePlus 9 Pro","OnePlus 9","OnePlus 9R","OnePlus 8 Pro","OnePlus 8","OnePlus 8T","OnePlus 7T Pro","OnePlus 7T","OnePlus 7 Pro","OnePlus 7","OnePlus 6T","OnePlus 6",
+"OnePlus Nord 4","OnePlus Nord 3","OnePlus Nord 2T","OnePlus Nord 2","OnePlus Nord CE 4","OnePlus Nord CE 4 Lite","OnePlus Nord CE 3","OnePlus Nord CE 3 Lite","OnePlus Nord CE 2","OnePlus Nord CE 2 Lite","OnePlus Nord N30","OnePlus Nord N20","OnePlus Nord N10","OnePlus Nord",
+// Google Pixel
+"Pixel 9 Pro XL","Pixel 9 Pro","Pixel 9","Pixel 9a","Pixel 8 Pro","Pixel 8","Pixel 8a","Pixel 7 Pro","Pixel 7","Pixel 7a","Pixel 6 Pro","Pixel 6","Pixel 6a","Pixel 5","Pixel 5a","Pixel 4a","Pixel 4a 5G","Pixel 4 XL","Pixel 4","Pixel 3 XL","Pixel 3","Pixel 3a","Pixel 3a XL","Pixel 2 XL","Pixel 2",
+// Nothing
+"Nothing Phone 3","Nothing Phone 2a Plus","Nothing Phone 2a","Nothing Phone 2","Nothing Phone 1",
+"CMF Phone 2 Pro","CMF Phone 1","CMF Buds Pro","CMF Watch Pro",
+// Infinix
+"Infinix Zero 40","Infinix Zero 30 5G","Infinix Zero 30","Infinix Zero 20","Infinix Zero 5G",
+"Infinix Note 50 Pro","Infinix Note 50","Infinix Note 40 Pro","Infinix Note 40","Infinix Note 40s","Infinix Note 30 Pro","Infinix Note 30","Infinix Note 30i","Infinix Note 30 5G",
+"Infinix Note 12 Pro","Infinix Note 12","Infinix Note 12i","Infinix Note 12 VIP","Infinix Note 11","Infinix Note 11S","Infinix Note 11 Pro","Infinix Note 10 Pro","Infinix Note 10","Infinix Note 8","Infinix Note 7",
+"Infinix Hot 50 Pro","Infinix Hot 50","Infinix Hot 50i","Infinix Hot 40 Pro","Infinix Hot 40i","Infinix Hot 40","Infinix Hot 30","Infinix Hot 30i","Infinix Hot 30 Play",
+"Infinix Hot 20","Infinix Hot 20i","Infinix Hot 20S","Infinix Hot 20 Play","Infinix Hot 12","Infinix Hot 12i","Infinix Hot 12 Pro","Infinix Hot 12 Play","Infinix Hot 11","Infinix Hot 11S","Infinix Hot 11 Play","Infinix Hot 10","Infinix Hot 10S","Infinix Hot 10 Play","Infinix Hot 9","Infinix Hot 9 Pro","Infinix Hot 8",
+"Infinix Smart 9","Infinix Smart 8","Infinix Smart 8 Pro","Infinix Smart 8 HD","Infinix Smart 7","Infinix Smart 7 HD","Infinix Smart 6","Infinix Smart 6 Plus","Infinix Smart 5","Infinix Smart 4",
+// Tecno
+"Tecno Phantom V Fold 2","Tecno Phantom V Fold","Tecno Phantom V Flip 2","Tecno Phantom V Flip","Tecno Phantom X2 Pro","Tecno Phantom X2",
+"Tecno Camon 40 Pro","Tecno Camon 40","Tecno Camon 30 Pro","Tecno Camon 30","Tecno Camon 30S","Tecno Camon 20 Pro","Tecno Camon 20","Tecno Camon 20S","Tecno Camon 19 Pro","Tecno Camon 19","Tecno Camon 18","Tecno Camon 18P","Tecno Camon 17","Tecno Camon 17P","Tecno Camon 16","Tecno Camon 15","Tecno Camon 12",
+"Tecno Spark 30 Pro","Tecno Spark 30","Tecno Spark 30C","Tecno Spark 20 Pro+","Tecno Spark 20 Pro","Tecno Spark 20","Tecno Spark 20C","Tecno Spark 20 5G",
+"Tecno Spark 10 Pro","Tecno Spark 10","Tecno Spark 10C","Tecno Spark 9","Tecno Spark 9 Pro","Tecno Spark 9T","Tecno Spark 8","Tecno Spark 8C","Tecno Spark 8 Pro","Tecno Spark 7","Tecno Spark 7 Pro","Tecno Spark 6","Tecno Spark 6 Go","Tecno Spark 5","Tecno Spark 5 Pro","Tecno Spark 4","Tecno Spark 3",
+"Tecno Spark Go 2024","Tecno Spark Go 2023","Tecno Spark Go 2022","Tecno Spark Go 2021",
+"Tecno Pop 9","Tecno Pop 8","Tecno Pop 7","Tecno Pop 7 Pro","Tecno Pop 6","Tecno Pop 6 Pro","Tecno Pop 5","Tecno Pop 5 Pro","Tecno Pop 4","Tecno Pop 3",
+"Tecno Pova 6 Pro","Tecno Pova 6","Tecno Pova 6 Neo","Tecno Pova 5 Pro","Tecno Pova 5","Tecno Pova 4 Pro","Tecno Pova 4","Tecno Pova 3","Tecno Pova 2","Tecno Pova Neo",
+// itel
+"itel P65","itel P55 5G","itel P55","itel P40","itel P40+","itel P38","itel P38 Pro","itel P37","itel P37 Pro","itel P36","itel P36 Pro",
+"itel S24","itel S23+","itel S23","itel S18","itel S17","itel S15",
+"itel A80","itel A70","itel A70 Pro","itel A60s","itel A60","itel A49","itel A48","itel A27","itel A25","itel A25 Pro","itel A23 Pro","itel A23","itel A16","itel A14",
+"itel Vision 5","itel Vision 5 Pro","itel Vision 3","itel Vision 3 Pro","itel Vision 2","itel Vision 2 Pro","itel Vision 1","itel Vision 1 Pro","itel City 100","itel City 100A",
+"itel it2160","itel it2170","itel it5080",
+// Walton
+"Walton Primo RX9","Walton Primo RX8","Walton Primo RX7","Walton Primo RX6","Walton Primo RX5",
+"Walton Primo R9","Walton Primo R8","Walton Primo R7","Walton Primo R6 Max","Walton Primo R6","Walton Primo R5","Walton Primo R4","Walton Primo RM4",
+"Walton Primo S8","Walton Primo S7","Walton Primo S6","Walton Primo S5",
+"Walton Primo N6","Walton Primo N5","Walton Primo N4","Walton Primo N3",
+"Walton Primo H10","Walton Primo H9","Walton Primo H8","Walton Primo H7","Walton Primo H6",
+"Walton Primo GH11","Walton Primo GH10","Walton Primo GH9","Walton Primo GH8","Walton Primo GH7",
+"Walton Primo EF12","Walton Primo EF11","Walton Primo EF10","Walton Primo EF9",
+"Walton Primo E12","Walton Primo E11","Walton Primo E10","Walton Primo E9","Walton Primo E8",
+"Walton Primo F11","Walton Primo F10","Walton Primo F9","Walton Primo F8","Walton Primo F7","Walton Primo F6","Walton Primo F5",
+"Walton Primo D10","Walton Primo D9","Walton Primo D8","Walton Primo D7","Walton Primo D6",
+"Walton Primo C8","Walton Primo C7","Walton Primo C6","Walton Primo C5","Walton Primo C4","Walton Primo C3",
+"Walton Primo GH7i","Walton Primo GH7s","Walton Primo H7s",
+// Symphony
+"Symphony Innova 30","Symphony Innova 20","Symphony Innova 10",
+"Symphony Z60","Symphony Z55","Symphony Z47","Symphony Z45","Symphony Z42","Symphony Z40","Symphony Z35","Symphony Z33","Symphony Z30","Symphony Z25","Symphony Z22","Symphony Z20","Symphony Z18","Symphony Z16","Symphony Z15","Symphony Z14","Symphony Z13","Symphony Z12",
+"Symphony Atom 3","Symphony Atom 2","Symphony Atom 1","Symphony G100","Symphony G10","Symphony G9","Symphony G8",
+"Symphony V150","Symphony V148","Symphony V140","Symphony V138","Symphony V135","Symphony V128","Symphony V120","Symphony V110",
+"Symphony B57","Symphony B50","Symphony B45","Symphony B40","Symphony B35",
+"Symphony i74","Symphony i72","Symphony i69","Symphony i68","Symphony i66","Symphony i65","Symphony i60","Symphony i50","Symphony i40","Symphony i30","Symphony i25","Symphony i20","Symphony i18","Symphony i15","Symphony i10",
+"Symphony D100","Symphony D85","Symphony D75","Symphony D65","Symphony D55","Symphony D45",
+"Symphony P7","Symphony P6","Symphony P5","Symphony P4",
+"Symphony T10","Symphony T8","Symphony T7","Symphony T6",
+"Symphony Helio 80","Symphony Helio 70","Symphony Helio 60","Symphony Helio 50","Symphony Helio 40","Symphony Helio 30",
+"Symphony V98","Symphony V96","Symphony V95","Symphony V94","Symphony V92",
+// Nokia
+"Nokia G42 5G","Nokia G60 5G","Nokia G50","Nokia G21","Nokia G20","Nokia G11","Nokia G10",
+"Nokia X30 5G","Nokia X20","Nokia X10","Nokia XR20",
+"Nokia C32","Nokia C31","Nokia C30","Nokia C21 Plus","Nokia C21","Nokia C20","Nokia C12","Nokia C12 Plus","Nokia C10","Nokia C2","Nokia C1",
+"Nokia 8.3 5G","Nokia 8.1","Nokia 7.2","Nokia 7.1","Nokia 6.2","Nokia 6.1","Nokia 5.4","Nokia 5.3","Nokia 4.2","Nokia 3.4","Nokia 3.2","Nokia 2.4","Nokia 2.3","Nokia 1.4","Nokia 1.3","Nokia 105",
+// Motorola
+"Moto G84 5G","Moto G73 5G","Moto G72","Moto G62 5G","Moto G52","Moto G42","Moto G32","Moto G31","Moto G30","Moto G22","Moto G20","Moto G10","Moto G9","Moto G9 Plus","Moto G9 Power","Moto G8","Moto G8 Power",
+"Moto Edge 50 Pro","Moto Edge 50","Moto Edge 50 Fusion","Moto Edge 50 Neo","Moto Edge 40 Pro","Moto Edge 40","Moto Edge 40 Neo","Moto Edge 30 Pro","Moto Edge 30","Moto Edge 30 Fusion","Moto Edge 30 Ultra","Moto Edge 20 Pro","Moto Edge 20","Moto Edge 20 Fusion",
+"Moto E13","Moto E22","Moto E22s","Moto E40","Moto E32","Moto E32s","Moto E20","Moto E7 Power",
+// Huawei / Honor
+"Huawei P60 Pro","Huawei P60","Huawei P50 Pro","Huawei P50","Huawei P40 Pro","Huawei P40","Huawei P30 Pro","Huawei P30","Huawei P20 Pro","Huawei P20",
+"Huawei Mate 60 Pro","Huawei Mate 60","Huawei Mate 50 Pro","Huawei Mate 50","Huawei Mate 40 Pro","Huawei Mate 40","Huawei Mate 30 Pro","Huawei Mate 30","Huawei Mate 20 Pro","Huawei Mate 20",
+"Huawei Nova 12","Huawei Nova 11","Huawei Nova 10","Huawei Nova 9","Huawei Nova 8","Huawei Nova 7","Huawei Nova 5T","Huawei Nova 3i","Huawei Nova 3",
+"Huawei Y9a","Huawei Y9s","Huawei Y9 Prime","Huawei Y8p","Huawei Y7a","Huawei Y7p","Huawei Y6p","Huawei Y6s","Huawei Y5p",
+"Honor Magic 6 Pro","Honor Magic 5 Pro","Honor Magic 4 Pro","Honor Magic V2","Honor Magic Vs",
+"Honor 90","Honor 90 Lite","Honor 70","Honor 50","Honor 50 Lite","Honor X9b","Honor X9a","Honor X8b","Honor X8a","Honor X8","Honor X7b","Honor X7a","Honor X7","Honor X6b","Honor X6a","Honor X6","Honor X5 Plus","Honor X5",
+// Lava
+"Lava Agni 3","Lava Agni 2 5G","Lava Blaze 5G","Lava Blaze 3 5G","Lava Blaze 2 5G","Lava Blaze 2","Lava Blaze","Lava Blaze Pro","Lava Blaze Curve",
+"Lava Yuva 3 Pro","Lava Yuva 3","Lava Yuva 2 Pro","Lava Yuva 2","Lava Yuva","Lava Z6","Lava Z4","Lava Z3","Lava Z2","Lava Z1",
+// Asus
+"Asus ROG Phone 8 Pro","Asus ROG Phone 8","Asus ROG Phone 7 Ultimate","Asus ROG Phone 7","Asus ROG Phone 6 Pro","Asus ROG Phone 6","Asus ROG Phone 5","Asus ROG Phone 5s","Asus ROG Phone 3","Asus ROG Phone 2",
+"Asus Zenfone 10","Asus Zenfone 9","Asus Zenfone 8","Asus Zenfone 8 Flip","Asus Zenfone 7","Asus Zenfone 7 Pro","Asus Zenfone 6",
+// Sony
+"Sony Xperia 1 VI","Sony Xperia 1 V","Sony Xperia 1 IV","Sony Xperia 1 III","Sony Xperia 1 II",
+"Sony Xperia 5 V","Sony Xperia 5 IV","Sony Xperia 5 III","Sony Xperia 5 II",
+"Sony Xperia 10 V","Sony Xperia 10 IV","Sony Xperia 10 III",
+// Others
+"Walton Primo X5","Walton Primo X4","Walton Primo X4 Pro",
+"Symphonex X10","Symphonex X8"
 ];
 
 // ===== Autocomplete =====
@@ -308,9 +335,9 @@ phoneInput.addEventListener('input',function(){
   if(q.length<1){acList.classList.remove('show');return}
   var matches=[];
   for(var i=0;i<PHONES.length;i++){
-    if(PHONES[i][0].toLowerCase().indexOf(q)>-1){
+    if(PHONES[i].toLowerCase().indexOf(q)>-1){
       matches.push(PHONES[i]);
-      if(matches.length>=25)break;
+      if(matches.length>=20)break;
     }
   }
   if(matches.length===0){
@@ -319,16 +346,15 @@ phoneInput.addEventListener('input',function(){
     return;
   }
   for(var j=0;j<matches.length;j++){
-    var p=matches[j];
     var div=document.createElement('div');
     div.className='ac-item';
-    div.innerHTML='<div class="m">'+p[0]+'</div>';
+    div.innerHTML='<div class="m">'+matches[j]+'</div>';
     div.onclick=(function(name){
       return function(){
         phoneInput.value=name;
         acList.classList.remove('show');
       };
-    })(p[0]);
+    })(matches[j]);
     acList.appendChild(div);
   }
   acList.classList.add('show');
@@ -340,7 +366,7 @@ document.addEventListener('click',function(e){
 
 document.getElementById('buyDate').valueAsDate = new Date();
 
-function toggleWarrantySection(){
+function toggleWarranty(){
   var v=document.getElementById('officialType').value;
   document.getElementById('warrantySection').style.display = (v==='official')?'block':'none';
 }
@@ -377,7 +403,6 @@ var depTable = {
   ]
 };
 
-// ===== CONDITION DROP TABLES =====
 var displayDrops = { A: [0,15,30], B: [0,14,28], C: [0,13,26], D: [0,12,25] };
 var batteryDrops = { A: [0,2,5,10,15,22,30], B: [0,2,6,11,16,24,32], C: [0,3,7,12,18,26,34], D: [0,3,8,13,20,28,36] };
 var scratchDrops = { A: [0,5,12,25], B: [0,6,13,27], C: [0,7,15,28], D: [0,8,17,30] };
@@ -386,12 +411,11 @@ var openedDrops = { A: [0,8,15,25], B: [0,9,16,27], C: [0,10,18,28], D: [0,12,20
 var overallAdj = { A: [3,0,-10,-25], B: [3,0,-12,-27], C: [3,0,-13,-30], D: [3,0,-15,-32] };
 var boxDrops = { A: [0,5,10], B: [0,5,10], C: [0,5,10], D: [0,5,10] };
 var chargerDrops = { A: [0,4,8], B: [0,4,8], C: [0,4,8], D: [0,4,8] };
-var warrantyDropTable = { A: [0,0,2,12], B: [0,0,2,12], C: [0,0,3,14], D: [0,0,3,16] };
+var warrantyDropArr = { A: [0,0,2,12], B: [0,0,2,12], C: [0,0,3,14], D: [0,0,3,16] };
 
 function getCategory(){
-  var v = phoneInput.value;
-  var name = v.toLowerCase();
-  if(/iphone|galaxy s|galaxy z|nothing|pixel|oneplus [0-9]|xperia|rog phone|xiaomi 1|find x|realme gt|vivo x|edge [0-9]/.test(name)) return 'A';
+  var name = phoneInput.value.toLowerCase();
+  if(/iphone|galaxy s|galaxy z|galaxy note|nothing|pixel|oneplus [0-9]|xperia|rog phone|xiaomi 1|find x|realme gt|vivo x|edge [0-9]/.test(name)) return 'A';
   if(/tecno|infinix/.test(name)) return 'C';
   if(/itel|lava|symphony|walton/.test(name)) return 'D';
   return 'B';
@@ -411,7 +435,7 @@ function calculate(){
   var name = phoneInput.value || 'Phone';
   var cat = getCategory();
   var buy = parseFloat(document.getElementById('buyPrice').value);
-  if(!buy){alert('Buy Price দিন!');return}
+  if(!buy){alert('ক্রয় মূল্য দিন!');return}
   if(!phoneInput.value){alert('ফোনের মডেল লিখুন!');return}
 
   var buyDateStr = document.getElementById('buyDate').value;
@@ -424,21 +448,27 @@ function calculate(){
   if(days < 7) usedText = days+' দিন';
   else if(days < 30) usedText = Math.floor(days/7)+' সপ্তাহ';
   else if(days < 365) usedText = Math.floor(days/30)+' মাস';
-  else usedText = (days/365).toFixed(1)+' বছর';
+  else {
+    var y = Math.floor(days/365);
+    var m = Math.floor((days%365)/30);
+    usedText = y+' বছর';
+    if(m>0) usedText += ' '+m+' মাস';
+  }
 
   var depDrop = getDepDrop(days, cat);
 
-  // Warranty Logic
+  // Warranty
   var warrantyDrop = 0;
-  var warrantyText = 'Unofficial';
+  var warrantyText = 'N/A (Unofficial)';
   if(document.getElementById('officialType').value === 'official'){
-    var wm = parseInt(document.getElementById('warrantyMonths').value);
-    if(wm >= 6){ warrantyDrop = 0; warrantyText = 'Official (৬+ মাস বাকি)'; }
-    else if(wm >= 4){ warrantyDrop = 0; warrantyText = 'Official (৩-৬ মাস বাকি)'; }
-    else if(wm >= 2){ warrantyDrop = warrantyDropTable[cat][2]; warrantyText = 'Official (১-৩ মাস বাকি)'; }
+    var wm = parseInt(document.getElementById('warrantyMonths').value) || 0;
+    if(wm >= 6){ warrantyDrop = 0; warrantyText = wm+' মাস বাকি'; }
+    else if(wm >= 3){ warrantyDrop = 0; warrantyText = wm+' মাস বাকি'; }
+    else if(wm >= 1){ warrantyDrop = warrantyDropArr[cat][2]; warrantyText = wm+' মাস বাকি'; }
+    else { warrantyDrop = warrantyDropArr[cat][3]; warrantyText = 'N/A'; }
   } else {
-    warrantyDrop = warrantyDropTable[cat][3];
-    warrantyText = 'Unofficial (Warranty নেই)';
+    warrantyDrop = warrantyDropArr[cat][3];
+    warrantyText = 'N/A';
   }
 
   var dIdx = document.getElementById('display').selectedIndex;
@@ -459,14 +489,16 @@ function calculate(){
   var boxDrop = boxDrops[cat][bxIdx];
   var chargerDrop = chargerDrops[cat][chIdx];
 
-  var displayText = ['Original, ঠিক আছে','Original, কিন্তু সমস্যা','Change করা হয়েছে'][dIdx];
-  var batteryText = document.getElementById('battery').selectedOptions[0].text;
-  var scratchText = document.getElementById('scratch').selectedOptions[0].text;
-  var cameraText = document.getElementById('camera').selectedOptions[0].text;
-  var openedText = document.getElementById('opened').selectedOptions[0].text;
-  var overallText = document.getElementById('overall').selectedOptions[0].text;
-  var boxText = document.getElementById('boxItem').selectedOptions[0].text;
-  var chargerText = document.getElementById('chargerItem').selectedOptions[0].text;
+  var displayText = ['Original','Original (সমস্যা)','Change হয়েছে'][dIdx];
+  var batteryText = document.getElementById('battery').selectedOptions[0].text.replace(/^[✔✘]\s*/,'');
+  var scratchText = document.getElementById('scratch').selectedOptions[0].text.replace(/^[✔✘]\s*/,'');
+  var cameraText = document.getElementById('camera').selectedOptions[0].text.replace(/^[✔✘]\s*/,'');
+  var openedText = document.getElementById('opened').selectedOptions[0].text.replace(/^[✔✘]\s*/,'');
+  var overallText = document.getElementById('overall').selectedOptions[0].text.replace(/^[✔✘]\s*/,'');
+  var boxText = document.getElementById('boxItem').selectedOptions[0].text.replace(/^[✔✘]\s*/,'');
+  var chargerText = document.getElementById('chargerItem').selectedOptions[0].text.replace(/^[✔✘]\s*/,'');
+
+  var phoneType = document.getElementById('officialType').value === 'official' ? 'Official' : 'Unofficial';
 
   var totalDrop = depDrop + displayDrop + batteryDrop + scratchDrop + cameraDrop + openedDrop + boxDrop + chargerDrop + warrantyDrop + Math.abs(overallBonus);
   if(overallBonus > 0) totalDrop -= overallBonus;
@@ -480,64 +512,79 @@ function calculate(){
   lastCalc.base = currentPrice;
   lastCalc.buy = buy;
 
+  var today = new Date().toLocaleDateString('bn-BD');
+  var reportNo = 'PV-' + new Date().getFullYear() + '-' + String(Math.floor(Math.random()*999)+1).padStart(3,'0');
+
   var result=document.getElementById('result');
   result.innerHTML=`
-    <div class="row"><span class="label-txt">📱 Phone</span><span class="value">${name}</span></div>
-    <div class="row"><span class="label-txt">📅 Used</span><span class="value">${usedText}</span></div>
-    <div class="row"><span class="label-txt">💵 Original Price</span><span class="value">৳${buy.toLocaleString()}</span></div>
-    <div class="row"><span class="label-txt">📉 Total Drop</span><span class="value">-${totalDrop}%</span></div>
+    <div class="row"><span class="label-txt">মডেল</span><span class="value">${name}</span></div>
+    <div class="row"><span class="label-txt">ব্যবহারের সময়</span><span class="value">${usedText}</span></div>
+    <div class="row"><span class="label-txt">মূল দাম</span><span class="value">৳${buy.toLocaleString('bn-BD')}</span></div>
+    <div class="row"><span class="label-txt">মোট ছাড়</span><span class="value">-${totalDrop}%</span></div>
 
     <div class="hl">
-      <div class="sm">ফোনের বর্তমান বাজার মূল্য</div>
-      <div class="big">৳${currentPrice.toLocaleString()}</div>
+      <div class="sm">বর্তমান বাজার মূল্য</div>
+      <div class="big">৳${currentPrice.toLocaleString('bn-BD')}</div>
     </div>
 
     <div id="profitTrigger" class="profit-hidden" onclick="showProfitPanel()">
-      <div class="eye">👁️</div>
-      <div class="txt">Profitable Selling Price দেখতে tap করুন</div>
+      <div class="txt">লাভের হিসাব দেখতে ট্যাপ করুন</div>
     </div>
 
     <div id="profitPanel" class="profit-panel">
-      <label>💰 আপনার Profit (টাকায় লিখুন)</label>
-      <input type="number" id="profitAmount" placeholder="যেমন: 500 / 700 / 1000" inputmode="numeric" oninput="calcProfit()">
+      <label>আপনার লাভ (৳)</label>
+      <input type="number" id="profitAmount" placeholder="" inputmode="numeric" oninput="calcProfit()">
       <div class="profit-result" id="profitResult">
-        <div class="lbl">Expected Selling Price</div>
-        <div class="amt" id="finalAmount">৳0</div>
+        <div class="lbl">প্রত্যাশিত বিক্রয় মূল্য</div>
+        <div class="amt" id="finalAmount">৳০</div>
         <div class="per" id="profitDetail"></div>
       </div>
-      <button class="calc-btn" onclick="hideProfitPanel()">🙈 আবার লুকান</button>
+      <button class="calc-btn2" onclick="hideProfitPanel()">লুকান</button>
     </div>
 
     <div class="action-btns">
-      <button class="btn-print" onclick="window.print()">🖨️ Print</button>
-      <button style="background:linear-gradient(135deg,#95a5a6,#7f8c8d)" onclick="resetForm()">🔄 Reset</button>
+      <button class="btn-print" onclick="window.print()">প্রিন্ট</button>
+      <button class="btn-reset" onclick="resetForm()">রিসেট</button>
     </div>
 
     <div class="print-detail">
-      <div style="margin-top:14px;padding:12px;background:#f8f9fa;border-radius:8px;">
-        <div style="font-weight:bold;color:#11998e;margin-bottom:8px;">📋 Condition Report</div>
-        <div class="row"><span class="label-txt">Warranty</span><span class="value">${warrantyText}</span></div>
-        <div class="row"><span class="label-txt">Display</span><span class="value">${displayText}</span></div>
-        <div class="row"><span class="label-txt">Battery</span><span class="value">${batteryText}</span></div>
-        <div class="row"><span class="label-txt">Scratch</span><span class="value">${scratchText}</span></div>
-        <div class="row"><span class="label-txt">Camera</span><span class="value">${cameraText}</span></div>
-        <div class="row"><span class="label-txt">Opened</span><span class="value">${openedText}</span></div>
-        <div class="row"><span class="label-txt">Overall</span><span class="value">${overallText}</span></div>
-        <div class="row"><span class="label-txt">Box</span><span class="value">${boxText}</span></div>
-        <div class="row"><span class="label-txt">Charger</span><span class="value">${chargerText}</span></div>
+      <div style="text-align:center;margin-bottom:20px;border-bottom:2px solid #000;padding-bottom:12px;">
+        <div style="font-size:22px;font-weight:700;letter-spacing:3px;">ফোন ভ্যালু চেক</div>
+        <div style="font-size:12px;margin-top:4px;">অফিসিয়াল মূল্যায়ন রিপোর্ট</div>
       </div>
-      <div style="margin-top:10px;padding:12px;background:#fff8e1;border-radius:8px;font-size:12px;color:#555;">
-        <b>কেন দাম কমল:</b><br>
-        Used Time (${usedText}): -${depDrop}%
-        ${displayDrop>0?'<br>Display: -'+displayDrop+'%':''}
-        ${batteryDrop>0?'<br>Battery: -'+batteryDrop+'%':''}
-        ${scratchDrop>0?'<br>Scratch: -'+scratchDrop+'%':''}
-        ${cameraDrop>0?'<br>Camera: -'+cameraDrop+'%':''}
-        ${openedDrop>0?'<br>Opened: -'+openedDrop+'%':''}
-        ${boxDrop>0?'<br>Box নেই: -'+boxDrop+'%':''}
-        ${chargerDrop>0?'<br>Charger নেই: -'+chargerDrop+'%':''}
-        ${warrantyDrop>0?'<br>Warranty নেই: -'+warrantyDrop+'%':''}
-        ${Math.abs(overallBonus)>0 && overallBonus<0 ?'<br>Overall: -'+Math.abs(overallBonus)+'%':''}
+      <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:16px;">
+        <span>রিপোর্ট নং: ${reportNo}</span>
+        <span>তারিখ: ${today}</span>
+      </div>
+
+      <div style="font-weight:700;font-size:13px;margin-bottom:8px;">ডিভাইস তথ্য</div>
+      <div class="row"><span class="label-txt">মডেল</span><span class="value">${name}</span></div>
+      <div class="row"><span class="label-txt">ব্যবহারের সময়</span><span class="value">${usedText}</span></div>
+
+      <div style="font-weight:700;font-size:13px;margin:16px 0 8px;">কন্ডিশন মূল্যায়ন</div>
+      <div class="row"><span class="label-txt">ফোনের ধরন</span><span class="value">${phoneType}</span></div>
+      <div class="row"><span class="label-txt">ওয়ারেন্টি</span><span class="value">${warrantyText}</span></div>
+      <div class="row"><span class="label-txt">ডিসপ্লে</span><span class="value">${displayText}</span></div>
+      <div class="row"><span class="label-txt">ব্যাটারি</span><span class="value">${batteryText}</span></div>
+      <div class="row"><span class="label-txt">স্ক্র্যাচ</span><span class="value">${scratchText}</span></div>
+      <div class="row"><span class="label-txt">ক্যামেরা</span><span class="value">${cameraText}</span></div>
+      <div class="row"><span class="label-txt">বক্স</span><span class="value">${boxText}</span></div>
+      <div class="row"><span class="label-txt">চার্জার</span><span class="value">${chargerText}</span></div>
+      <div class="row"><span class="label-txt">সামগ্রিক অবস্থা</span><span class="value">${overallText}</span></div>
+
+      <div style="font-weight:700;font-size:13px;margin:16px 0 8px;">মূল্যায়ন</div>
+      <div class="row"><span class="label-txt">মূল দাম</span><span class="value">৳${buy.toLocaleString('bn-BD')}</span></div>
+      <div class="row"><span class="label-txt">ব্যবহারজনিত ছাড়</span><span class="value">-${depDrop}%</span></div>
+      <div class="row"><span class="label-txt">কন্ডিশন ছাড়</span><span class="value">-${totalDrop - depDrop}%</span></div>
+
+      <div style="border-top:2px solid #000;margin-top:12px;padding-top:12px;display:flex;justify-content:space-between;">
+        <span style="font-weight:700;font-size:15px;">বর্তমান মূল্য</span>
+        <span style="font-weight:700;font-size:18px;">৳${currentPrice.toLocaleString('bn-BD')}</span>
+      </div>
+
+      <div style="margin-top:40px;padding-top:20px;border-top:1px dashed #000;">
+        <div style="font-size:12px;margin-bottom:24px;">গ্রাহকের স্বাক্ষর: _______________________</div>
+        <div style="text-align:right;font-size:12px;">[আপনার দোকানের নাম]<br>অনুমোদিত ডিলার</div>
       </div>
     </div>
   `;
@@ -560,14 +607,14 @@ function calcProfit(){
   var profit=parseFloat(document.getElementById('profitAmount').value)||0;
   var base=lastCalc.base;
   if(profit<=0 || base<=0){
-    document.getElementById('finalAmount').textContent='৳0';
+    document.getElementById('finalAmount').textContent='৳০';
     document.getElementById('profitDetail').textContent='';
     return;
   }
   var finalPrice=base + profit;
   var pct=((profit/base)*100).toFixed(1);
-  document.getElementById('finalAmount').textContent='৳'+finalPrice.toLocaleString();
-  document.getElementById('profitDetail').textContent='Profit: ৳'+profit.toLocaleString()+' ('+pct+'%)';
+  document.getElementById('finalAmount').textContent='৳'+finalPrice.toLocaleString('bn-BD');
+  document.getElementById('profitDetail').textContent='লাভ: ৳'+profit.toLocaleString('bn-BD')+' ('+pct+'%)';
 }
 
 function resetForm(){
@@ -576,6 +623,7 @@ function resetForm(){
   document.getElementById('buyDate').valueAsDate = new Date();
   document.getElementById('officialType').value='unofficial';
   document.getElementById('warrantySection').style.display='none';
+  document.getElementById('warrantyMonths').value='';
   document.getElementById('opened').value='0';
   document.getElementById('battery').value='0';
   document.getElementById('scratch').value='0';

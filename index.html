@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#11998e">
+<title>Phone Judge</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:-apple-system,'Segoe UI',sans-serif;background:linear-gradient(135deg,#11998e,#38ef7d);min-height:100vh;padding:12px;font-size:16px}
+.box{background:#fff;max-width:500px;margin:0 auto;padding:20px 16px;border-radius:18px;box-shadow:0 10px 30px rgba(0,0,0,.2)}
+h1{text-align:center;font-size:19px;color:#222;margin-bottom:3px}
+.sub{text-align:center;color:#888;font-size:12px;margin-bottom:18px}
+label{display:block;margin-top:14px;margin-bottom:6px;font-weight:600;color:#333;font-size:14px}
+input,select{width:100%;padding:14px 12px;border:2px solid #ddd;border-radius:12px;font-size:16px;background:#fff;-webkit-appearance:none;appearance:none}
+select{background-image:url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2'%3e%3cpolyline points='6 9 12 15 18 9'/%3e%3c/svg%3e");background-repeat:no-repeat;background-position:right 10px center;background-size:18px;padding-right:38px}
+input:focus,select:focus{border-color:#11998e;outline:none}
+button{width:100%;margin-top:20px;padding:16px;background:linear-gradient(135deg,#11998e,#38ef7d);color:#fff;border:none;border-radius:12px;font-size:17px;font-weight:bold;-webkit-appearance:none}
+button:active{transform:scale(.98)}
+.result{margin-top:20px;padding:16px;background:#f0fff4;border-radius:14px;border-left:5px solid #11998e;display:none}
+.result.show{display:block}
+.row{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px dashed #ddd;font-size:14px}
+.label-txt{color:#666;flex:1}
+.value{font-weight:bold;color:#222;text-align:right}
+.hl{background:#d4f5e0;padding:16px;border-radius:12px;margin-top:14px;text-align:center}
+.big{font-size:26px;color:#0a7d5a;font-weight:bold;margin:4px 0}
+.sm{font-size:12px;color:#555}
+.dec{margin-top:14px;padding:14px;background:#fff;border-radius:12px;text-align:center;border:2px solid}
+#photoPreview{margin-top:10px;max-width:100%;border-radius:10px;display:none}
+.tip{font-size:11px;color:#888;margin-top:12px;line-height:1.5}
+</style>
+</head>
+<body>
+<div class="box">
+<h1>📱 Phone Price Judge</h1>
+<p class="sub">2nd hand ফোনের দাম যাচাই</p>
+
+<label>ফোনের নাম / মডেল</label>
+<input type="text" id="phoneName" placeholder="iPhone 12 Pro 128GB">
+
+<label>ব্র্যান্ড</label>
+<select id="brand">
+<option value="apple">Apple iPhone</option>
+<option value="samsung">Samsung Galaxy S/Note</option>
+<option value="samsungFold">Samsung Fold/Flip</option>
+<option value="midrange">Xiaomi / Redmi / Realme</option>
+<option value="pixel">Google Pixel / OnePlus</option>
+</select>
+
+<label>বিক্রেতা কত টাকা চাইছে?</label>
+<input type="number" id="askingPrice" placeholder="45000" inputmode="numeric">
+
+<label>কত দিন ব্যবহার হয়েছে</label>
+<select id="usageTime">
+<option value="0.95">০ - ৩ মাস</option>
+<option value="0.90">৩ - ৬ মাস</option>
+<option value="0.80">৬ - ১২ মাস</option>
+<option value="0.68">১ - ২ বছর</option>
+<option value="0.55">২ - ৩ বছর</option>
+<option value="0.40">৩ বছরের বেশি</option>
+</select>
+
+<label>Condition</label>
+<select id="condition">
+<option value="1.10">Excellent</option>
+<option value="1.00" selected>Good</option>
+<option value="0.85">Fair</option>
+<option value="0.70">Poor</option>
+</select>
+
+<label>Profit চান</label>
+<select id="profit">
+<option value="500">৫০০ টাকা</option>
+<option value="1000" selected>১০০০ টাকা</option>
+<option value="1500">১৫০০ টাকা</option>
+<option value="2000">২০০০ টাকা</option>
+</select>
+
+<label>ছবি (optional)</label>
+<input type="file" id="photo" accept="image/*">
+<img id="photoPreview">
+
+<button onclick="calculate()">💰 Judge করুন</button>
+<div class="result" id="result"></div>
+</div>
+
+<script>
+document.getElementById('photo').addEventListener('change',function(e){
+var f=e.target.files[0];
+if(f){var r=new FileReader();
+r.onload=function(ev){var i=document.getElementById('photoPreview');
+i.src=ev.target.result;i.style.display='block'};
+r.readAsDataURL(f)}
+});
+
+var brandData={
+apple:{year1:.78,year2:.58,year3:.45,longTerm:.35},
+samsung:{year1:.50,year2:.35,year3:.25,longTerm:.15},
+samsungFold:{year1:.35,year2:.20,year3:.12,longTerm:.08},
+midrange:{year1:.40,year2:.22,year3:.12,longTerm:.05},
+pixel:{year1:.55,year2:.38,year3:.25,longTerm:.15}
+};
+
+function getDepreciationRate(brand,usageTime,condition){
+var data=brandData[brand];var baseRate;
+if(usageTime==="0.95"||usageTime==="0.90")baseRate=data.year1*0.85;
+else if(usageTime==="0.80")baseRate=data.year1;
+else if(usageTime==="0.68")baseRate=data.year2;
+else if(usageTime==="0.55")baseRate=data.year3;
+else baseRate=data.longTerm;
+var adjustedRate=baseRate*condition;
+return Math.min(0.95,Math.max(0.05,adjustedRate));
+}
+
+function calculate(){
+var name=document.getElementById('phoneName').value||'Phone';
+var brand=document.getElementById('brand').value;
+var asking=parseFloat(document.getElementById('askingPrice').value);
+var usage=document.getElementById('usageTime').value;
+var condition=parseFloat(document.getElementById('condition').value);
+var profit=parseFloat(document.getElementById('profit').value);
+
+if(!asking){alert('বিক্রেতা কত টাকা চাইছে সেটা দিন!');return}
+
+var depreciationRate=getDepreciationRate(brand,usage,condition);
+var negotiationGap;
+switch(brand){
+case'apple':negotiationGap=.92;break;
+case'samsung':negotiationGap=.85;break;
+case'samsungFold':negotiationGap=.75;break;
+case'midrange':negotiationGap=.80;break;
+case'pixel':negotiationGap=.88;break;
+default:negotiationGap=.85;
+}
+
+var marketResale=Math.floor(asking*negotiationGap*condition/100)*100;
+var maxBuy=Math.floor((marketResale-profit)/100)*100;
+
+var decision,decisionColor,decisionText;
+if(asking<=maxBuy){decision='✅';decisionColor='#0a7d5a';decisionText='লাভ হবে! কিনতে পারেন'}
+else if(asking<=marketResale){decision='⚠️';decisionColor='#e67e22';decisionText='কম লাভ, দরদাম করুন'}
+else{decision='❌';decisionColor='#c0392b';decisionText='লস হবে! কিনবেন না'}
+
+var retentionPercent=Math.round((1-depreciationRate)*100);
+var result=document.getElementById('result');
+result.innerHTML=`
+<div class="row"><span class="label-txt">📱 Phone</span><span class="value">${name}</span></div>
+<div class="row"><span class="label-txt">💵 বিক্রেতা চাইছে</span><span class="value">৳${asking.toLocaleString()}</span></div>
+<div class="row"><span class="label-txt">📊 বাজার মূল্য</span><span class="value">৳${marketResale.toLocaleString()}</span></div>
+<div class="row"><span class="label-txt">📉 অবচয়</span><span class="value">${100-retentionPercent}%</span></div>
+<div class="row"><span class="label-txt">🎯 Profit</span><span class="value">৳${profit.toLocaleString()}</span></div>
+<div class="hl">
+<div class="sm">✅ এই দামে কিনুন (Max Buy)</div>
+<div class="big">৳${maxBuy.toLocaleString()}</div>
+<div class="sm">এর বেশি দিলে profit কমবে</div>
+</div>
+<div class="dec" style="border-color:${decisionColor}">
+<div style="font-size:28px">${decision}</div>
+<div style="font-weight:bold;color:${decisionColor};margin-top:4px">${decisionText}</div>
+</div>
+<p class="tip">💡 iPhone মূল্য ভালো ধরে রাখে, Fold ফোন দ্রুত কমে।</p>`;
+result.classList.add('show');
+result.scrollIntoView({behavior:'smooth',block:'start'});
+}
+</script>
+</body>
+</html>

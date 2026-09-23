@@ -20,13 +20,16 @@ button:active{transform:scale(.98)}
 .result{margin-top:22px;padding:18px;background:#fefcf7;border-radius:14px;border:1px solid #e0d8c0;border-left:3px solid #7a5c14;display:none}
 .result.show{display:block;animation:fadeIn .4s}
 @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-.row{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #f0e8d0;font-size:13.5px;gap:8px}
+.row{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #f0e8d0;font-size:13.5px;gap:8px;align-items:center}
 .row:last-child{border:none}
 .label-txt{color:#888;flex:1}
 .value{font-weight:600;color:#2a2a2a;text-align:right}
-.hl{background:linear-gradient(135deg,#fdf7e0,#f5ecd0);padding:22px 18px;border-radius:14px;margin-top:16px;text-align:center;border:1px solid #7a5c14}
-.hl .sm{font-size:11px;color:#7a5c14;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px}
-.hl .big{font-size:34px;color:#7a5c14;font-weight:800;margin:8px 0;font-family:'Playfair Display',Georgia,serif}
+.editable{background:#fff8e1;border-radius:6px;padding:4px 8px;cursor:pointer;border:1px dashed transparent;transition:.2s;min-width:60px;text-align:right;font-weight:700;color:#7a5c14}
+.editable:active,.editable:hover{border-color:#7a5c14;background:#fdf2c8}
+.edit-input{width:70px;padding:5px 8px;border:1.5px solid #7a5c14;border-radius:6px;font-size:14px;font-weight:700;color:#7a5c14;text-align:right;background:#fff;font-family:inherit}
+.hl{background:linear-gradient(135deg,#fdf7e0,#f5ecd0);padding:22px 18px;border-radius:14px;margin-top:16px;text-align:center;border:1.5px solid #7a5c14}
+.hl .sm{font-size:12px;color:#7a5c14;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;font-weight:600}
+.hl .big{font-size:38px;color:#7a5c14;font-weight:800;margin:8px 0;font-family:'Playfair Display',Georgia,serif}
 .ac-wrap{position:relative}
 .ac-list{position:absolute;top:100%;left:0;right:0;background:#fff;border:1.5px solid #7a5c14;border-top:none;border-radius:0 0 10px 10px;max-height:300px;overflow-y:auto;z-index:100;display:none;box-shadow:0 10px 30px rgba(80,60,20,.15)}
 .ac-list.show{display:block}
@@ -37,7 +40,7 @@ button:active{transform:scale(.98)}
 .section{background:#fefcf7;padding:14px;border-radius:12px;margin-top:16px;border:1px solid #f0e8d0;border-left:3px solid #7a5c14}
 .section-title{font-size:12.5px;font-weight:700;color:#7a5c14;margin-bottom:8px;letter-spacing:1px;text-transform:uppercase}
 .profit-hidden{background:linear-gradient(135deg,#fdf7e0,#f5ecd0);border:1.5px dashed #7a5c14;border-radius:12px;padding:16px;margin-top:16px;text-align:center;cursor:pointer;user-select:none}
-.profit-hidden .txt{font-size:13px;color:#7a5c14}
+.profit-hidden .txt{font-size:13px;color:#7a5c14;font-weight:600}
 .profit-panel{background:linear-gradient(135deg,#fdf7e0,#f5ecd0);border:1.5px solid #7a5c14;border-radius:12px;padding:16px;margin-top:16px;display:none}
 .profit-panel.show{display:block}
 .profit-panel label{color:#7a5c14;font-size:12px;margin-top:8px}
@@ -51,22 +54,32 @@ button:active{transform:scale(.98)}
 .action-btns button{margin-top:0;padding:13px;font-size:13.5px}
 .btn-print{background:linear-gradient(135deg,#7a5c14,#5c4410);color:#fff}
 .btn-reset{background:linear-gradient(135deg,#f0e8d0,#e0d8c0);color:#555;box-shadow:none}
+.tip{font-size:11px;color:#999;margin-top:12px;text-align:center;line-height:1.5}
 .print-detail{display:none}
+/* ===== PRINT STYLES ===== */
 @media print{
-  body{background:#fff;padding:0;color:#000}
-  .box{box-shadow:none;padding:20px;max-width:100%;background:#fff;border:none;border-radius:0}
-  h1{color:#000;font-size:22px;letter-spacing:2px}
+  body{background:#fff;padding:0;color:#000;font-size:12px;font-family:'Noto Sans Bengali',sans-serif}
+  .box{box-shadow:none;padding:0;max-width:100%;background:#fff;border:none;border-radius:0}
+  h1{display:none}
   .sub{display:none}
-  label,select,input,.section,.action-btns,.profit-panel,.profit-hidden,.ac-wrap,.calc-btn,.ac-list{display:none !important}
-  .result{display:block !important;background:#fff;border:none;padding:0;margin:0}
-  .result .row,.result .hl{display:none !important}
-  .hl{background:#f5f0e0;border:2px solid #000;margin-top:16px;page-break-inside:avoid}
-  .hl .big,.hl .sm{color:#000}
-  .row{color:#000;border-bottom:1px dashed #999}
-  .label-txt,.value{color:#000}
+  label,select,input,.section,.action-btns,.profit-panel,.profit-hidden,.ac-wrap,.calc-btn,.ac-list,button,.tip{display:none !important}
+  .result{display:block !important;background:#fff;border:none;padding:0;margin:0;border-radius:0}
+  .result > .row{display:none !important}
+  .result > .hl{display:none !important}
+  .result > #profitTrigger,.result > #profitPanel,.result > .action-btns{display:none !important}
   .print-detail{display:block !important;color:#000}
-  .sign-area{display:flex;justify-content:space-between;margin-top:50px;padding-top:20px;border-top:1px dashed #000;gap:30px}
-  .sign-area>div{flex:1;font-size:13px}
+  .print-detail .row{display:flex !important;justify-content:space-between;padding:6px 0;border-bottom:1px dotted #999;font-size:12px;align-items:center}
+  .print-detail .row:last-child{border:none}
+  .print-detail .label-txt{color:#000 !important;flex:1}
+  .print-detail .value{color:#000 !important;font-weight:700;text-align:right}
+  .print-detail .head-title{text-align:center;font-size:22px;font-weight:800;letter-spacing:3px;border-bottom:3px double #000;padding-bottom:10px;margin-bottom:14px;font-family:'Playfair Display',Georgia,serif}
+  .print-detail .section-head{font-weight:700;font-size:13px;margin:14px 0 6px;border-bottom:1px solid #000;padding-bottom:4px;text-transform:uppercase;letter-spacing:1px}
+  .print-detail .final-box{border:3px double #000;margin-top:16px;padding:14px;text-align:center;background:#f5f0e0}
+  .print-detail .final-box .lbl{font-size:12px;font-weight:700;letter-spacing:2px;margin-bottom:6px}
+  .print-detail .final-box .amt{font-size:22px;font-weight:800;font-family:'Playfair Display',Georgia,serif}
+  .sign-area{display:flex !important;justify-content:space-between;margin-top:60px;padding-top:20px;border-top:1px dashed #000;gap:30px}
+  .sign-area > div{flex:1;font-size:12px}
+  .sign-area .sign-label{font-weight:700;margin-bottom:30px}
 }
 .sign-area{display:none}
 </style>
@@ -176,7 +189,7 @@ button:active{transform:scale(.98)}
 </div>
 
 <script>
-// ===== Phone Database (2018+) =====
+// ===== Phone Database =====
 var PHONES=[
 // Nothing
 "Nothing Phone 4a Pro","Nothing Phone 4a","Nothing Phone 3a Pro","Nothing Phone 3a Lite","Nothing Phone 3a","Nothing Phone 3",
@@ -318,6 +331,9 @@ var PHONES=[
 "Sony Xperia 10 V","Sony Xperia 10 IV","Sony Xperia 10 III"
 ];
 
+// ===== State =====
+var lastCalc = { buy:0, depDrop:0, condDrop:0, base:0, customDep:null, customCond:null };
+
 // ===== Autocomplete =====
 var phoneInput=document.getElementById('phoneInput');
 var acList=document.getElementById('acList');
@@ -364,7 +380,7 @@ function toggleWarranty(){
   document.getElementById('warrantySection').style.display = (v==='official')?'block':'none';
 }
 
-// ===== DEPRECIATION TABLE (আরো কমানো) =====
+// ===== DEPRECIATION TABLE =====
 var depTable = {
   A: [
     {days:1, drop:6},{days:3, drop:7},{days:7, drop:8},{days:15, drop:9},
@@ -427,19 +443,28 @@ function formatRamRom(input){
   input = input.trim();
   if(input.indexOf('/') > -1){
     var parts = input.split('/');
-    return 'RAM/Storage: ' + parts[0].trim() + 'GB/' + parts[1].trim() + 'GB';
+    return {label:'RAM/Storage', value: parts[0].trim()+'GB/'+parts[1].trim()+'GB'};
   } else {
-    return 'Storage: ' + input + 'GB';
+    return {label:'Storage', value: input+'GB'};
   }
 }
 
-var lastCalc={base:0, buy:0};
+function calcCurrentPrice(){
+  var dep = (lastCalc.customDep !== null) ? lastCalc.customDep : lastCalc.depDrop;
+  var cond = (lastCalc.customCond !== null) ? lastCalc.customCond : lastCalc.condDrop;
+  var totalDrop = dep + cond;
+  var price = Math.floor(lastCalc.buy * (100 - totalDrop) / 100 / 100) * 100;
+  var minPrice = Math.floor(lastCalc.buy * 0.25 / 100) * 100;
+  if(price < minPrice) price = minPrice;
+  if(price > lastCalc.buy) price = lastCalc.buy;
+  return {totalDrop:totalDrop, dep:dep, cond:cond, price:price};
+}
 
 function calculate(){
   var name = phoneInput.value || 'Phone';
   var cat = getCategory();
   var buy = parseFloat(document.getElementById('buyPrice').value);
-  var ramRom = document.getElementById('ramRom').value;
+  var ramRomRaw = document.getElementById('ramRom').value;
   if(!buy){alert('ক্রয় মূল্য দিন!');return}
   if(!phoneInput.value){alert('ফোনের মডেল লিখুন!');return}
 
@@ -503,33 +528,37 @@ function calculate(){
   var chargerText = document.getElementById('chargerItem').selectedOptions[0].text.replace(/^[✔✘]\s*/,'');
 
   var phoneType = document.getElementById('officialType').value === 'official' ? 'Official' : 'Unofficial';
-  var ramRomText = formatRamRom(ramRom);
+  var ramRom = formatRamRom(ramRomRaw);
 
-  var totalDrop = depDrop + displayDrop + batteryDrop + scratchDrop + cameraDrop + openedDrop + boxDrop + chargerDrop + warrantyDrop + Math.abs(overallBonus);
-  if(overallBonus > 0) totalDrop -= overallBonus;
-  if(totalDrop < 0) totalDrop = 0;
+  // Condition drop (সব condition এর যোগফল)
+  var condDrop = displayDrop + batteryDrop + scratchDrop + cameraDrop + openedDrop + boxDrop + chargerDrop + warrantyDrop + Math.abs(overallBonus);
+  if(overallBonus > 0) condDrop -= overallBonus;
+  if(condDrop < 0) condDrop = 0;
 
-  var currentPrice = Math.floor(buy * (100 - totalDrop) / 100 / 100) * 100;
-  var minPrice = Math.floor(buy * 0.25 / 100) * 100;
-  if(currentPrice < minPrice) currentPrice = minPrice;
-  if(currentPrice > buy) currentPrice = buy;
-
-  lastCalc.base = currentPrice;
+  // Save state
   lastCalc.buy = buy;
+  lastCalc.depDrop = depDrop;
+  lastCalc.condDrop = condDrop;
+  lastCalc.customDep = null;
+  lastCalc.customCond = null;
+
+  var priceData = calcCurrentPrice();
+  lastCalc.base = priceData.price;
 
   var today = new Date().toLocaleDateString('bn-BD',{day:'2-digit',month:'2-digit',year:'numeric'});
 
   var result=document.getElementById('result');
   result.innerHTML=`
     <div class="row"><span class="label-txt">মডেল</span><span class="value">${name}</span></div>
-    ${ramRomText?'<div class="row"><span class="label-txt">'+(ramRom.indexOf('/')>-1?'RAM/Storage':'Storage')+'</span><span class="value">'+ramRomText.replace(/^[^:]+:\s*/,'')+'</span></div>':''}
+    ${ramRom.value?'<div class="row"><span class="label-txt">'+ramRom.label+'</span><span class="value">'+ramRom.value+'</span></div>':''}
     <div class="row"><span class="label-txt">ব্যবহারের সময়</span><span class="value">${usedText}</span></div>
     <div class="row"><span class="label-txt">মূল দাম</span><span class="value">৳${buy.toLocaleString('bn-BD')}</span></div>
-    <div class="row"><span class="label-txt">মোট ছাড়</span><span class="value">-${totalDrop}%</span></div>
+    <div class="row"><span class="label-txt">ব্যবহারজনিত ছাড়</span><span class="value editable" id="depEdit" data-val="${depDrop}" data-field="dep">-${depDrop}%</span></div>
+    <div class="row"><span class="label-txt">কন্ডিশন ছাড়</span><span class="value editable" id="condEdit" data-val="${condDrop}" data-field="cond">-${condDrop}%</span></div>
 
     <div class="hl">
       <div class="sm">বর্তমান বাজার মূল্য</div>
-      <div class="big">৳${currentPrice.toLocaleString('bn-BD')}</div>
+      <div class="big" id="currentPrice">৳${priceData.price.toLocaleString('bn-BD')}</div>
     </div>
 
     <div id="profitTrigger" class="profit-hidden" onclick="showProfitPanel()">
@@ -548,22 +577,22 @@ function calculate(){
     </div>
 
     <div class="action-btns">
-      <button class="btn-print" onclick="window.print()">প্রিন্ট</button>
+      <button class="btn-print" onclick="doPrint()">প্রিন্ট</button>
       <button class="btn-reset" onclick="resetForm()">রিসেট</button>
     </div>
 
-    <div class="print-detail">
-      <div style="text-align:center;margin-bottom:16px;border-bottom:2px solid #000;padding-bottom:10px;">
-        <div style="font-size:22px;font-weight:800;letter-spacing:3px;">PHONE VALUE REPORT</div>
-      </div>
+    <div class="tip">ছাড়ের % double tap করে পরিবর্তন করতে পারবেন</div>
+
+    <div class="print-detail" id="printDetail">
+      <div class="head-title">PHONE VALUE REPORT</div>
       <div style="text-align:right;font-size:12px;margin-bottom:14px;">তারিখ: ${today}</div>
 
-      <div style="font-weight:700;font-size:13px;margin-bottom:8px;">ডিভাইস তথ্য</div>
+      <div class="section-head">ডিভাইস তথ্য</div>
       <div class="row"><span class="label-txt">মডেল</span><span class="value">${name}</span></div>
-      ${ramRomText?'<div class="row"><span class="label-txt">'+(ramRom.indexOf('/')>-1?'RAM/Storage':'Storage')+'</span><span class="value">'+ramRomText.replace(/^[^:]+:\s*/,'')+'</span></div>':''}
+      ${ramRom.value?'<div class="row"><span class="label-txt">'+ramRom.label+'</span><span class="value">'+ramRom.value+'</span></div>':''}
       <div class="row"><span class="label-txt">ব্যবহারের সময়</span><span class="value">${usedText}</span></div>
 
-      <div style="font-weight:700;font-size:13px;margin:14px 0 8px;">কন্ডিশন মূল্যায়ন</div>
+      <div class="section-head">কন্ডিশন মূল্যায়ন</div>
       <div class="row"><span class="label-txt">ফোনের ধরন</span><span class="value">${phoneType}</span></div>
       <div class="row"><span class="label-txt">ওয়ারেন্টি</span><span class="value">${warrantyText}</span></div>
       <div class="row"><span class="label-txt">ডিসপ্লে</span><span class="value">${displayText}</span></div>
@@ -574,33 +603,102 @@ function calculate(){
       <div class="row"><span class="label-txt">চার্জার</span><span class="value">${chargerText}</span></div>
       <div class="row"><span class="label-txt">সামগ্রিক অবস্থা</span><span class="value">${overallText}</span></div>
 
-      <div style="font-weight:700;font-size:13px;margin:14px 0 8px;">মূল্যায়ন</div>
+      <div class="section-head">মূল্যায়ন</div>
       <div class="row"><span class="label-txt">মূল দাম</span><span class="value">৳${buy.toLocaleString('bn-BD')}</span></div>
-      <div class="row"><span class="label-txt">ব্যবহারজনিত ছাড়</span><span class="value">-${depDrop}%</span></div>
-      <div class="row"><span class="label-txt">কন্ডিশন ছাড়</span><span class="value">-${totalDrop - depDrop}%</span></div>
+      <div class="row"><span class="label-txt">ব্যবহারজনিত ছাড়</span><span class="value" id="printDep">-${depDrop}%</span></div>
+      <div class="row"><span class="label-txt">কন্ডিশন ছাড়</span><span class="value" id="printCond">-${condDrop}%</span></div>
 
-      <div style="border-top:2px solid #000;margin-top:12px;padding-top:12px;display:flex;justify-content:space-between;">
-        <span style="font-weight:700;font-size:15px;">বর্তমান মূল্য</span>
-        <span style="font-weight:700;font-size:18px;">৳${currentPrice.toLocaleString('bn-BD')}</span>
+      <div class="final-box">
+        <div class="lbl">বর্তমান মূল্য</div>
+        <div class="amt" id="printPrice">৳${priceData.price.toLocaleString('bn-BD')}</div>
       </div>
 
       <div class="sign-area">
         <div>
-          <div style="font-weight:700;margin-bottom:20px;">বিক্রেতা</div>
+          <div class="sign-label">বিক্রেতা</div>
           <div>নাম: ____________________</div>
           <div style="margin-top:6px;">ফোন: ____________________</div>
         </div>
         <div style="text-align:right;">
-          <div style="font-weight:700;margin-bottom:20px;">ক্রেতা</div>
+          <div class="sign-label">ক্রেতা</div>
           <div>নাম: ____________________</div>
         </div>
       </div>
     </div>
   `;
   result.classList.add('show');
+
+  // Attach double-tap listeners
+  attachEditListeners();
+
   result.scrollIntoView({behavior:'smooth',block:'start'});
 }
 
+// ===== DOUBLE TAP EDIT =====
+function attachEditListeners(){
+  ['depEdit','condEdit'].forEach(function(id){
+    var el = document.getElementById(id);
+    if(!el) return;
+    var lastTap = 0;
+    el.addEventListener('click', function(e){
+      var now = Date.now();
+      if(now - lastTap < 400){
+        // Double tap
+        e.preventDefault();
+        makeEditable(el);
+      }
+      lastTap = now;
+    });
+  });
+}
+
+function makeEditable(el){
+  if(el.querySelector('input')) return;
+  var field = el.getAttribute('data-field');
+  var val = el.getAttribute('data-val');
+  var originalHTML = el.innerHTML;
+  el.innerHTML = '<input type="number" class="edit-input" value="'+val+'" min="0" max="100">';
+  var inp = el.querySelector('input');
+  inp.focus();
+  inp.select();
+
+  function commit(){
+    var newVal = parseFloat(inp.value);
+    if(isNaN(newVal) || newVal < 0) newVal = 0;
+    if(newVal > 100) newVal = 100;
+    el.setAttribute('data-val', newVal);
+    el.innerHTML = '-'+newVal+'%';
+
+    if(field === 'dep') lastCalc.customDep = newVal;
+    if(field === 'cond') lastCalc.customCond = newVal;
+
+    // Update price
+    var pd = calcCurrentPrice();
+    lastCalc.base = pd.price;
+
+    document.getElementById('currentPrice').textContent = '৳'+pd.price.toLocaleString('bn-BD');
+    document.getElementById('printPrice').textContent = '৳'+pd.price.toLocaleString('bn-BD');
+    document.getElementById('printDep').textContent = '-'+pd.dep+'%';
+    document.getElementById('printCond').textContent = '-'+pd.cond+'%';
+
+    // Update profit if open
+    if(document.getElementById('profitPanel').classList.contains('show')){
+      calcProfit();
+    }
+  }
+
+  inp.addEventListener('blur', commit);
+  inp.addEventListener('keydown', function(e){
+    if(e.key === 'Enter'){ inp.blur(); }
+  });
+}
+
+// ===== PRINT =====
+function doPrint(){
+  window.print();
+}
+
+// ===== PROFIT =====
 function showProfitPanel(){
   document.getElementById('profitTrigger').style.display='none';
   document.getElementById('profitPanel').classList.add('show');
@@ -643,8 +741,9 @@ function resetForm(){
   document.getElementById('boxItem').value='0';
   document.getElementById('chargerItem').value='0';
   document.getElementById('result').classList.remove('show');
+  lastCalc = { buy:0, depDrop:0, condDrop:0, base:0, customDep:null, customCond:null };
   window.scrollTo({top:0,behavior:'smooth'});
 }
 </script>
 </body>
-  </html>
+</html>

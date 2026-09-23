@@ -3,62 +3,63 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#c9a227">
+<meta name="theme-color" content="#7a5c14">
 <title>PHONE VALUE CHECK</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 body{font-family:-apple-system,'Segoe UI','Noto Sans Bengali',sans-serif;background:linear-gradient(135deg,#f5f5f0,#e8e4d8);min-height:100vh;padding:14px;font-size:15px;color:#2a2a2a}
 .box{background:#fff;max-width:520px;margin:0 auto;padding:24px 18px;border-radius:20px;border:1px solid #e0d8c0;box-shadow:0 20px 50px rgba(80,60,20,.15)}
-h1{text-align:center;font-size:22px;color:#8b6f1f;margin-bottom:4px;font-weight:700;letter-spacing:1.5px;font-family:'Playfair Display',Georgia,serif}
+h1{text-align:center;font-size:24px;color:#7a5c14;margin-bottom:4px;font-weight:800;letter-spacing:2px;font-family:'Playfair Display',Georgia,serif}
 .sub{text-align:center;color:#999;font-size:11px;margin-bottom:22px;letter-spacing:1px;text-transform:uppercase}
 label{display:block;margin-top:16px;margin-bottom:7px;font-weight:600;color:#555;font-size:12.5px}
 input,select{width:100%;padding:13px 14px;border:1.5px solid #e0d8c0;border-radius:10px;font-size:15px;background:#fefcf7;color:#2a2a2a;-webkit-appearance:none;appearance:none;font-family:inherit}
-input:focus,select:focus{border-color:#c9a227;outline:none;box-shadow:0 0 0 3px rgba(201,162,39,.12);background:#fff}
-select{background-image:url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23c9a227' stroke-width='2'%3e%3cpolyline points='6 9 12 15 18 9'/%3e%3c/svg%3e");background-repeat:no-repeat;background-position:right 12px center;background-size:18px;padding-right:42px;background-color:#fefcf7}
-button{width:100%;margin-top:22px;padding:16px;background:linear-gradient(135deg,#c9a227,#a8851c);color:#fff;border:none;border-radius:10px;font-size:16px;font-weight:700;letter-spacing:1px;cursor:pointer;font-family:inherit;box-shadow:0 4px 12px rgba(201,162,39,.3)}
+input:focus,select:focus{border-color:#7a5c14;outline:none;box-shadow:0 0 0 3px rgba(122,92,20,.12);background:#fff}
+select{background-image:url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237a5c14' stroke-width='2'%3e%3cpolyline points='6 9 12 15 18 9'/%3e%3c/svg%3e");background-repeat:no-repeat;background-position:right 12px center;background-size:18px;padding-right:42px;background-color:#fefcf7}
+button{width:100%;margin-top:22px;padding:16px;background:linear-gradient(135deg,#7a5c14,#5c4410);color:#fff;border:none;border-radius:10px;font-size:16px;font-weight:700;letter-spacing:1px;cursor:pointer;font-family:inherit;box-shadow:0 4px 12px rgba(122,92,20,.3)}
 button:active{transform:scale(.98)}
-.result{margin-top:22px;padding:18px;background:#fefcf7;border-radius:14px;border:1px solid #e0d8c0;border-left:3px solid #c9a227;display:none}
+.result{margin-top:22px;padding:18px;background:#fefcf7;border-radius:14px;border:1px solid #e0d8c0;border-left:3px solid #7a5c14;display:none}
 .result.show{display:block;animation:fadeIn .4s}
 @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 .row{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #f0e8d0;font-size:13.5px;gap:8px}
 .row:last-child{border:none}
 .label-txt{color:#888;flex:1}
 .value{font-weight:600;color:#2a2a2a;text-align:right}
-.hl{background:linear-gradient(135deg,#fdf7e0,#f5ecd0);padding:22px 18px;border-radius:14px;margin-top:16px;text-align:center;border:1px solid #c9a227}
-.hl .sm{font-size:11px;color:#8b6f1f;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px}
-.hl .big{font-size:34px;color:#8b6f1f;font-weight:700;margin:8px 0;font-family:'Playfair Display',Georgia,serif}
+.hl{background:linear-gradient(135deg,#fdf7e0,#f5ecd0);padding:22px 18px;border-radius:14px;margin-top:16px;text-align:center;border:1px solid #7a5c14}
+.hl .sm{font-size:11px;color:#7a5c14;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px}
+.hl .big{font-size:34px;color:#7a5c14;font-weight:800;margin:8px 0;font-family:'Playfair Display',Georgia,serif}
 .ac-wrap{position:relative}
-.ac-list{position:absolute;top:100%;left:0;right:0;background:#fff;border:1.5px solid #c9a227;border-top:none;border-radius:0 0 10px 10px;max-height:300px;overflow-y:auto;z-index:100;display:none;box-shadow:0 10px 30px rgba(80,60,20,.15)}
+.ac-list{position:absolute;top:100%;left:0;right:0;background:#fff;border:1.5px solid #7a5c14;border-top:none;border-radius:0 0 10px 10px;max-height:300px;overflow-y:auto;z-index:100;display:none;box-shadow:0 10px 30px rgba(80,60,20,.15)}
 .ac-list.show{display:block}
 .ac-item{padding:13px 14px;border-bottom:1px solid #f5f0e0;cursor:pointer;font-size:14px;color:#444}
 .ac-item:last-child{border-bottom:none}
-.ac-item:active,.ac-item:hover{background:#fdf7e0;color:#8b6f1f}
+.ac-item:active,.ac-item:hover{background:#fdf7e0;color:#7a5c14}
 .ac-empty{padding:14px;color:#999;font-size:13px;text-align:center}
-.section{background:#fefcf7;padding:14px;border-radius:12px;margin-top:16px;border:1px solid #f0e8d0;border-left:3px solid #c9a227}
-.section-title{font-size:12.5px;font-weight:700;color:#8b6f1f;margin-bottom:8px;letter-spacing:1px;text-transform:uppercase}
-.profit-hidden{background:linear-gradient(135deg,#fdf7e0,#f5ecd0);border:1.5px dashed #c9a227;border-radius:12px;padding:16px;margin-top:16px;text-align:center;cursor:pointer;user-select:none}
-.profit-hidden .txt{font-size:13px;color:#8b6f1f}
-.profit-panel{background:linear-gradient(135deg,#fdf7e0,#f5ecd0);border:1.5px solid #c9a227;border-radius:12px;padding:16px;margin-top:16px;display:none}
+.section{background:#fefcf7;padding:14px;border-radius:12px;margin-top:16px;border:1px solid #f0e8d0;border-left:3px solid #7a5c14}
+.section-title{font-size:12.5px;font-weight:700;color:#7a5c14;margin-bottom:8px;letter-spacing:1px;text-transform:uppercase}
+.profit-hidden{background:linear-gradient(135deg,#fdf7e0,#f5ecd0);border:1.5px dashed #7a5c14;border-radius:12px;padding:16px;margin-top:16px;text-align:center;cursor:pointer;user-select:none}
+.profit-hidden .txt{font-size:13px;color:#7a5c14}
+.profit-panel{background:linear-gradient(135deg,#fdf7e0,#f5ecd0);border:1.5px solid #7a5c14;border-radius:12px;padding:16px;margin-top:16px;display:none}
 .profit-panel.show{display:block}
-.profit-panel label{color:#8b6f1f;font-size:12px;margin-top:8px}
-.profit-panel input{padding:11px;font-size:15px;border-color:#c9a227;background:#fff}
+.profit-panel label{color:#7a5c14;font-size:12px;margin-top:8px}
+.profit-panel input{padding:11px;font-size:15px;border-color:#7a5c14;background:#fff}
 .profit-result{background:#fff;border-radius:10px;padding:14px;margin-top:12px;text-align:center;border:1px solid #e0d8c0}
 .profit-result .lbl{font-size:11px;color:#888;letter-spacing:1px;text-transform:uppercase}
-.profit-result .amt{font-size:26px;color:#8b6f1f;font-weight:700;margin-top:6px;font-family:'Playfair Display',Georgia,serif}
+.profit-result .amt{font-size:26px;color:#7a5c14;font-weight:800;margin-top:6px;font-family:'Playfair Display',Georgia,serif}
 .profit-result .per{font-size:11px;color:#888;margin-top:4px}
 .calc-btn2{background:linear-gradient(135deg,#555,#333);color:#fff;padding:10px;margin-top:12px;font-size:13px;border-radius:8px;border:none;box-shadow:none}
 .action-btns{display:flex;gap:10px;margin-top:16px}
 .action-btns button{margin-top:0;padding:13px;font-size:13.5px}
-.btn-print{background:linear-gradient(135deg,#c9a227,#a8851c);color:#fff}
+.btn-print{background:linear-gradient(135deg,#7a5c14,#5c4410);color:#fff}
 .btn-reset{background:linear-gradient(135deg,#f0e8d0,#e0d8c0);color:#555;box-shadow:none}
 .print-detail{display:none}
 @media print{
   body{background:#fff;padding:0;color:#000}
   .box{box-shadow:none;padding:20px;max-width:100%;background:#fff;border:none;border-radius:0}
-  h1{color:#000;font-size:24px;letter-spacing:2px}
+  h1{color:#000;font-size:22px;letter-spacing:2px}
   .sub{display:none}
   label,select,input,.section,.action-btns,.profit-panel,.profit-hidden,.ac-wrap,.calc-btn,.ac-list{display:none !important}
   .result{display:block !important;background:#fff;border:none;padding:0;margin:0}
+  .result .row,.result .hl{display:none !important}
   .hl{background:#f5f0e0;border:2px solid #000;margin-top:16px;page-break-inside:avoid}
   .hl .big,.hl .sm{color:#000}
   .row{color:#000;border-bottom:1px dashed #999}
@@ -80,6 +81,9 @@ button:active{transform:scale(.98)}
   <input type="text" id="phoneInput" placeholder="" autocomplete="off">
   <div class="ac-list" id="acList"></div>
 </div>
+
+<label>RAM / Storage (Android: 8/128, iPhone: 128)</label>
+<input type="text" id="ramRom" placeholder="8/128 বা 128" autocomplete="off">
 
 <label>ক্রয় মূল্য (৳)</label>
 <input type="number" id="buyPrice" placeholder="" inputmode="numeric">
@@ -172,7 +176,7 @@ button:active{transform:scale(.98)}
 </div>
 
 <script>
-// ===== Phone Database (Part 1 — Popular 150 Models) =====
+// ===== Phone Database (2018+) =====
 var PHONES=[
 // Nothing
 "Nothing Phone 4a Pro","Nothing Phone 4a","Nothing Phone 3a Pro","Nothing Phone 3a Lite","Nothing Phone 3a","Nothing Phone 3",
@@ -360,35 +364,35 @@ function toggleWarranty(){
   document.getElementById('warrantySection').style.display = (v==='official')?'block':'none';
 }
 
-// ===== DEPRECIATION TABLE =====
+// ===== DEPRECIATION TABLE (আরো কমানো) =====
 var depTable = {
   A: [
-    {days:1, drop:7},{days:3, drop:8},{days:7, drop:9},{days:15, drop:11},
-    {days:30, drop:13},{days:60, drop:15},{days:90, drop:17},{days:120, drop:19},
-    {days:180, drop:21},{days:270, drop:24},{days:365, drop:28},
-    {days:548, drop:33},{days:730, drop:38},{days:913, drop:43},{days:1095, drop:47},
-    {days:1460, drop:53},{days:9999, drop:58}
+    {days:1, drop:6},{days:3, drop:7},{days:7, drop:8},{days:15, drop:9},
+    {days:30, drop:11},{days:60, drop:13},{days:90, drop:14},{days:120, drop:16},
+    {days:180, drop:18},{days:270, drop:21},{days:365, drop:24},
+    {days:548, drop:29},{days:730, drop:34},{days:913, drop:38},{days:1095, drop:42},
+    {days:1460, drop:49},{days:9999, drop:55}
   ],
   B: [
-    {days:1, drop:9},{days:3, drop:10},{days:7, drop:11},{days:15, drop:13},
-    {days:30, drop:15},{days:60, drop:18},{days:90, drop:19},{days:120, drop:22},
-    {days:180, drop:24},{days:270, drop:28},{days:365, drop:32},
-    {days:548, drop:37},{days:730, drop:42},{days:913, drop:47},{days:1095, drop:51},
-    {days:1460, drop:57},{days:9999, drop:62}
+    {days:1, drop:8},{days:3, drop:9},{days:7, drop:10},{days:15, drop:11},
+    {days:30, drop:13},{days:60, drop:15},{days:90, drop:16},{days:120, drop:18},
+    {days:180, drop:20},{days:270, drop:24},{days:365, drop:28},
+    {days:548, drop:33},{days:730, drop:38},{days:913, drop:42},{days:1095, drop:46},
+    {days:1460, drop:52},{days:9999, drop:58}
   ],
   C: [
-    {days:1, drop:11},{days:3, drop:12},{days:7, drop:13},{days:15, drop:15},
-    {days:30, drop:17},{days:60, drop:20},{days:90, drop:21},{days:120, drop:24},
-    {days:180, drop:26},{days:270, drop:31},{days:365, drop:35},
-    {days:548, drop:40},{days:730, drop:46},{days:913, drop:50},{days:1095, drop:54},
-    {days:1460, drop:60},{days:9999, drop:65}
+    {days:1, drop:10},{days:3, drop:11},{days:7, drop:12},{days:15, drop:13},
+    {days:30, drop:15},{days:60, drop:17},{days:90, drop:18},{days:120, drop:20},
+    {days:180, drop:23},{days:270, drop:26},{days:365, drop:30},
+    {days:548, drop:35},{days:730, drop:40},{days:913, drop:44},{days:1095, drop:48},
+    {days:1460, drop:54},{days:9999, drop:60}
   ],
   D: [
-    {days:1, drop:13},{days:3, drop:14},{days:7, drop:15},{days:15, drop:17},
-    {days:30, drop:19},{days:60, drop:22},{days:90, drop:24},{days:120, drop:27},
-    {days:180, drop:29},{days:270, drop:34},{days:365, drop:38},
-    {days:548, drop:44},{days:730, drop:50},{days:913, drop:54},{days:1095, drop:58},
-    {days:1460, drop:64},{days:9999, drop:68}
+    {days:1, drop:12},{days:3, drop:13},{days:7, drop:14},{days:15, drop:15},
+    {days:30, drop:17},{days:60, drop:19},{days:90, drop:20},{days:120, drop:22},
+    {days:180, drop:25},{days:270, drop:28},{days:365, drop:32},
+    {days:548, drop:37},{days:730, drop:42},{days:913, drop:46},{days:1095, drop:50},
+    {days:1460, drop:56},{days:9999, drop:62}
   ]
 };
 
@@ -399,8 +403,8 @@ var cameraDrops = { A: [0,10,22], B: [0,11,24], C: [0,13,26], D: [0,15,28] };
 var openedDrops = { A: [0,8,15,25], B: [0,9,16,27], C: [0,10,18,28], D: [0,12,20,30] };
 var overallAdj = { A: [3,0,-10,-25], B: [3,0,-12,-27], C: [3,0,-13,-30], D: [3,0,-15,-32] };
 var boxDrops = { A: [0,5,10], B: [0,5,10], C: [0,5,10], D: [0,5,10] };
-var chargerDrops = { A: [0,4,8,0], B: [0,4,8,0], C: [0,4,8,0], D: [0,4,8,0] };
-var warrantyDropArr = { A: [0,0,2,10], B: [0,0,2,10], C: [0,0,3,12], D: [0,0,3,14] };
+var chargerDrops = { A: [0,4,0,8], B: [0,4,0,8], C: [0,4,0,8], D: [0,4,0,8] };
+var warrantyDropArr = { A: [0,0,2,8], B: [0,0,2,10], C: [0,0,3,12], D: [0,0,3,14] };
 
 function getCategory(){
   var name = phoneInput.value.toLowerCase();
@@ -418,12 +422,24 @@ function getDepDrop(days, cat){
   return table[table.length-1].drop;
 }
 
+function formatRamRom(input){
+  if(!input) return '';
+  input = input.trim();
+  if(input.indexOf('/') > -1){
+    var parts = input.split('/');
+    return 'RAM/Storage: ' + parts[0].trim() + 'GB/' + parts[1].trim() + 'GB';
+  } else {
+    return 'Storage: ' + input + 'GB';
+  }
+}
+
 var lastCalc={base:0, buy:0};
 
 function calculate(){
   var name = phoneInput.value || 'Phone';
   var cat = getCategory();
   var buy = parseFloat(document.getElementById('buyPrice').value);
+  var ramRom = document.getElementById('ramRom').value;
   if(!buy){alert('ক্রয় মূল্য দিন!');return}
   if(!phoneInput.value){alert('ফোনের মডেল লিখুন!');return}
 
@@ -487,6 +503,7 @@ function calculate(){
   var chargerText = document.getElementById('chargerItem').selectedOptions[0].text.replace(/^[✔✘]\s*/,'');
 
   var phoneType = document.getElementById('officialType').value === 'official' ? 'Official' : 'Unofficial';
+  var ramRomText = formatRamRom(ramRom);
 
   var totalDrop = depDrop + displayDrop + batteryDrop + scratchDrop + cameraDrop + openedDrop + boxDrop + chargerDrop + warrantyDrop + Math.abs(overallBonus);
   if(overallBonus > 0) totalDrop -= overallBonus;
@@ -505,6 +522,7 @@ function calculate(){
   var result=document.getElementById('result');
   result.innerHTML=`
     <div class="row"><span class="label-txt">মডেল</span><span class="value">${name}</span></div>
+    ${ramRomText?'<div class="row"><span class="label-txt">'+(ramRom.indexOf('/')>-1?'RAM/Storage':'Storage')+'</span><span class="value">'+ramRomText.replace(/^[^:]+:\s*/,'')+'</span></div>':''}
     <div class="row"><span class="label-txt">ব্যবহারের সময়</span><span class="value">${usedText}</span></div>
     <div class="row"><span class="label-txt">মূল দাম</span><span class="value">৳${buy.toLocaleString('bn-BD')}</span></div>
     <div class="row"><span class="label-txt">মোট ছাড়</span><span class="value">-${totalDrop}%</span></div>
@@ -536,13 +554,13 @@ function calculate(){
 
     <div class="print-detail">
       <div style="text-align:center;margin-bottom:16px;border-bottom:2px solid #000;padding-bottom:10px;">
-        <div style="font-size:20px;font-weight:700;letter-spacing:3px;">PHONE VALUE CHECK</div>
-        <div style="font-size:14px;font-weight:700;letter-spacing:2px;margin-top:4px;">PHONE VALUE REPORT</div>
+        <div style="font-size:22px;font-weight:800;letter-spacing:3px;">PHONE VALUE REPORT</div>
       </div>
       <div style="text-align:right;font-size:12px;margin-bottom:14px;">তারিখ: ${today}</div>
 
       <div style="font-weight:700;font-size:13px;margin-bottom:8px;">ডিভাইস তথ্য</div>
       <div class="row"><span class="label-txt">মডেল</span><span class="value">${name}</span></div>
+      ${ramRomText?'<div class="row"><span class="label-txt">'+(ramRom.indexOf('/')>-1?'RAM/Storage':'Storage')+'</span><span class="value">'+ramRomText.replace(/^[^:]+:\s*/,'')+'</span></div>':''}
       <div class="row"><span class="label-txt">ব্যবহারের সময়</span><span class="value">${usedText}</span></div>
 
       <div style="font-weight:700;font-size:13px;margin:14px 0 8px;">কন্ডিশন মূল্যায়ন</div>
@@ -610,6 +628,7 @@ function calcProfit(){
 
 function resetForm(){
   document.getElementById('phoneInput').value='';
+  document.getElementById('ramRom').value='';
   document.getElementById('buyPrice').value='';
   document.getElementById('buyDate').valueAsDate = new Date();
   document.getElementById('officialType').value='unofficial';
@@ -629,4 +648,3 @@ function resetForm(){
 </script>
 </body>
   </html>
-  

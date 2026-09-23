@@ -24,9 +24,6 @@ button:active{transform:scale(.98)}
 .hl{background:#d4f5e0;padding:18px;border-radius:12px;margin-top:14px;text-align:center}
 .hl .sm{font-size:12px;color:#555}
 .hl .big{font-size:32px;color:#0a7d5a;font-weight:bold;margin:6px 0}
-.hl2{background:#e3f2fd;padding:18px;border-radius:12px;margin-top:10px;text-align:center;border:2px solid #64b5f6}
-.hl2 .sm{font-size:12px;color:#0d47a1}
-.hl2 .big{font-size:28px;color:#0d47a1;font-weight:bold;margin:6px 0}
 .tip{font-size:11px;color:#888;margin-top:12px;line-height:1.6;background:#f8f8f8;padding:10px;border-radius:8px}
 .ac-wrap{position:relative}
 .ac-list{position:absolute;top:100%;left:0;right:0;background:#fff;border:2px solid #11998e;border-top:none;border-radius:0 0 12px 12px;max-height:280px;overflow-y:auto;z-index:100;display:none;box-shadow:0 8px 20px rgba(0,0,0,.15)}
@@ -53,7 +50,10 @@ button:active{transform:scale(.98)}
 .action-btns{display:flex;gap:8px;margin-top:14px}
 .action-btns button{margin-top:0;padding:12px;font-size:14px}
 .btn-print{background:linear-gradient(135deg,#3498db,#2980b9)}
-/* PRINT STYLES */
+/* Date input custom */
+input[type="date"]{position:relative}
+input[type="date"]::-webkit-calendar-picker-indicator{opacity:0.5}
+/* PRINT */
 @media print{
   body{background:#fff;padding:0}
   .box{box-shadow:none;padding:15px;max-width:100%}
@@ -63,8 +63,6 @@ button:active{transform:scale(.98)}
   .result{display:block !important;background:#fff;border:2px solid #11998e;padding:20px}
   .hl{background:#f0fff4;border:2px solid #11998e}
   .hl .big{color:#000}
-  .hl2{background:#e3f2fd;border:2px solid #0d47a1}
-  .hl2 .big{color:#0d47a1}
 }
 </style>
 </head>
@@ -75,33 +73,29 @@ button:active{transform:scale(.98)}
 
 <label>📱 ফোনের নাম / মডেল</label>
 <div class="ac-wrap">
-  <input type="text" id="phoneInput" placeholder="iPhone 13 / Nothing Phone 2 / Realme 10" autocomplete="off">
+  <input type="text" id="phoneInput" placeholder="Nothing Phone 3A / iPhone 13 / Realme 10" autocomplete="off">
   <div class="ac-list" id="acList"></div>
 </div>
 
-<label>💵 Buy Price (আপনি কত টাকায় কিনছেন)</label>
-<input type="number" id="buyPrice" placeholder="যেমন: 25000" inputmode="numeric">
+<label>💵 Market Price / Buy Price (আপনি কত টাকায় কিনছেন)</label>
+<input type="number" id="buyPrice" placeholder="যেমন: 45000" inputmode="numeric">
 
 <div class="section">
 <div class="section-title">📋 ফোনের Condition</div>
 
-<label>১) Buy Date (কত দিন আগে কিনেছে)</label>
-<select id="buyDate">
-<option value="1.00">০-৩ মাস</option>
-<option value="0.96">৩-৬ মাস</option>
-<option value="0.90">৬-১২ মাস</option>
-<option value="0.82">১-২ বছর</option>
-<option value="0.70">২-৩ বছর</option>
-<option value="0.58">৩+ বছর</option>
+<label>১) Buy Date (কত তারিখে কিনেছে)</label>
+<input type="date" id="buyDate" max="">
+
+<label>২) Warranty আছে?</label>
+<select id="warrantyYesNo" onchange="toggleWarranty()">
+<option value="no" selected>❌ না (Unofficial / Warranty নেই)</option>
+<option value="yes">✅ হ্যাঁ (Official / Warranty আছে)</option>
 </select>
 
-<label>২) Warranty</label>
-<select id="warranty">
-<option value="1.10">✅ Official — ৬+ মাস বাকি</option>
-<option value="1.07">✅ Official — ৩-৬ মাস বাকি</option>
-<option value="1.03">✅ Official — ১-৩ মাস বাকি</option>
-<option value="1.00" selected>❌ Unofficial / Warranty নেই</option>
-</select>
+<div id="warrantyMonthsBox" style="display:none">
+  <label>Warranty বাকি কত মাস?</label>
+  <input type="number" id="warrantyMonths" placeholder="যেমন: 5 / 6 / 7" inputmode="numeric" min="1" max="24">
+</div>
 
 <label>৩) Phone খোলা হয়েছে কি?</label>
 <select id="opened">
@@ -113,17 +107,21 @@ button:active{transform:scale(.98)}
 
 <label>৪) Battery Health</label>
 <select id="battery">
-<option value="1.00" selected>✅ Good (৮৫%+)</option>
-<option value="0.94">⚠️ Medium (৭৫-৮৫%)</option>
-<option value="0.86">❌ Bad (৭৫% এর নিচে)</option>
+<option value="1.00">✅ Excellent — ৯৫%+</option>
+<option value="0.98" selected>✅ Very Good — ৯০-৯৫%</option>
+<option value="0.95">👍 Good — ৮৫-৯০%</option>
+<option value="0.92">⚠️ Fair — ৮০-৮৫%</option>
+<option value="0.88">⚠️ Medium — ৭৫-৮০%</option>
+<option value="0.82">❌ Poor — ৭০-৭৫%</option>
+<option value="0.75">❌ Bad — ৭০% এর নিচে</option>
 </select>
 
 <label>৫) Scratch Status</label>
 <select id="scratch">
 <option value="1.00" selected>✨ Fresh (একদম পরিষ্কার)</option>
-<option value="0.95">Low (সামান্য দাগ)</option>
-<option value="0.88">Medium (মোটামুটি দাগ)</option>
-<option value="0.78">High (অনেক দাগ)</option>
+<option value="0.96">Low (সামান্য দাগ)</option>
+<option value="0.90">Medium (মোটামুটি দাগ)</option>
+<option value="0.80">High (অনেক দাগ)</option>
 </select>
 
 <label>৬) Camera Condition</label>
@@ -133,11 +131,11 @@ button:active{transform:scale(.98)}
 <option value="0.82">❌ Bad (সমস্যা আছে)</option>
 </select>
 
-<label>৭) Display</label>
+<label>৭) Display Condition</label>
 <select id="display">
 <option value="1.00" selected>✅ Original, ঠিক আছে</option>
-<option value="0.90">⚠️ Original, কিন্তু সমস্যা আছে</option>
-<option value="0.72">❌ Change করা হয়েছে</option>
+<option value="0.88">⚠️ Original, কিন্তু সমস্যা আছে</option>
+<option value="0.72">❌ Change করা হয়েছে (25-30% drop)</option>
 </select>
 
 <label>৮) Overall Check</label>
@@ -176,16 +174,15 @@ var PHONES=[
 ["Galaxy S10+"],["Galaxy S10"],["Galaxy S10e"],
 ["Galaxy A73"],["Galaxy A72"],["Galaxy A71"],["Galaxy A70"],
 ["Galaxy A55"],["Galaxy A54"],["Galaxy A53"],["Galaxy A52"],["Galaxy A52s"],
-["Galaxy A51"],["Galaxy A50"],["Galaxy A50s"],
-["Galaxy A35"],["Galaxy A34"],["Galaxy A33"],["Galaxy A32"],
+["Galaxy A51"],["Galaxy A50"],["Galaxy A35"],["Galaxy A34"],["Galaxy A33"],["Galaxy A32"],
 ["Galaxy A25"],["Galaxy A24"],["Galaxy A23"],["Galaxy A22"],
 ["Galaxy A15"],["Galaxy A14"],["Galaxy A13"],["Galaxy A12"],
-["Galaxy A05s"],["Galaxy A05"],["Galaxy A04s"],["Galaxy A04"],["Galaxy A03"],["Galaxy A03s"],["Galaxy A02s"],
+["Galaxy A05s"],["Galaxy A05"],["Galaxy A04s"],["Galaxy A04"],["Galaxy A03"],["Galaxy A02s"],
 ["Galaxy M55"],["Galaxy M54"],["Galaxy M53"],["Galaxy M52"],
-["Galaxy M35"],["Galaxy M34"],["Galaxy M33"],["Galaxy M32"],["Galaxy M31"],["Galaxy M21"],["Galaxy M14"],["Galaxy M13"],["Galaxy M12"],["Galaxy M11"],
-["Galaxy F54"],["Galaxy F34"],["Galaxy F14"],["Galaxy F13"],["Galaxy F12"],
+["Galaxy M35"],["Galaxy M34"],["Galaxy M33"],["Galaxy M32"],["Galaxy M31"],["Galaxy M21"],["Galaxy M14"],["Galaxy M13"],["Galaxy M12"],
+["Galaxy F54"],["Galaxy F34"],["Galaxy F14"],
 ["Galaxy Z Fold 6"],["Galaxy Z Fold 5"],["Galaxy Z Fold 4"],["Galaxy Z Fold 3"],["Galaxy Z Fold 2"],
-["Galaxy Z Flip 6"],["Galaxy Z Flip 5"],["Galaxy Z Flip 4"],["Galaxy Z Flip 3"],["Galaxy Z Flip"],
+["Galaxy Z Flip 6"],["Galaxy Z Flip 5"],["Galaxy Z Flip 4"],["Galaxy Z Flip 3"],
 // Xiaomi
 ["Redmi Note 14 Pro"],["Redmi Note 14"],["Redmi Note 13 Pro+"],["Redmi Note 13 Pro"],["Redmi Note 13"],
 ["Redmi Note 12 Pro+"],["Redmi Note 12 Pro"],["Redmi Note 12"],["Redmi Note 12S"],
@@ -198,7 +195,7 @@ var PHONES=[
 ["Redmi 8"],["Redmi 8A"],["Redmi 7"],["Redmi 7A"],["Redmi 6"],["Redmi 6A"],
 ["Redmi A4"],["Redmi A3"],["Redmi A2"],["Redmi A1"],
 ["Xiaomi 14 Ultra"],["Xiaomi 14"],["Xiaomi 13 Pro"],["Xiaomi 13"],["Xiaomi 12 Pro"],["Xiaomi 12"],
-["Mi 11X"],["Mi 11 Lite"],["Mi 10T Pro"],["Mi 10T"],["Mi 10"],["Mi 9"],
+["Mi 11X"],["Mi 11 Lite"],["Mi 10T Pro"],["Mi 10T"],["Mi 10"],
 ["POCO X7 Pro"],["POCO X7"],["POCO X6 Pro"],["POCO X6"],["POCO X5 Pro"],["POCO X5"],["POCO X4 Pro"],["POCO X3 Pro"],["POCO X3 NFC"],
 ["POCO M7 Pro"],["POCO M6 Pro"],["POCO M6"],["POCO M5"],["POCO M4 Pro"],["POCO M3"],
 ["POCO F6 Pro"],["POCO F6"],["POCO F5 Pro"],["POCO F5"],["POCO F4"],["POCO F3"],["POCO F2 Pro"],["POCO F1"],
@@ -240,15 +237,16 @@ var PHONES=[
 // Google Pixel
 ["Pixel 9 Pro XL"],["Pixel 9 Pro"],["Pixel 9"],["Pixel 9a"],["Pixel 8 Pro"],["Pixel 8"],["Pixel 8a"],["Pixel 7 Pro"],["Pixel 7"],["Pixel 7a"],
 ["Pixel 6 Pro"],["Pixel 6"],["Pixel 6a"],["Pixel 5"],["Pixel 5a"],["Pixel 4a"],["Pixel 4 XL"],["Pixel 4"],["Pixel 3 XL"],["Pixel 3"],["Pixel 3a"],
-// Nothing
-["Nothing Phone 3"],["Nothing Phone 2a Plus"],["Nothing Phone 2a"],["Nothing Phone 2"],["Nothing Phone 1"],
-["CMF Phone 1"],["CMF Buds Pro"],["CMF Watch Pro"],
+// Nothing - Full Series
+["Nothing Phone 4A Pro"],["Nothing Phone 4A"],["Nothing Phone 4"],["Nothing Phone 3A Pro"],["Nothing Phone 3A"],["Nothing Phone 3"],
+["Nothing Phone 2a Plus"],["Nothing Phone 2a"],["Nothing Phone 2"],["Nothing Phone 1"],
+["CMF Phone 2 Pro"],["CMF Phone 1"],["CMF Buds Pro"],["CMF Watch Pro"],
 // Infinix
 ["Infinix Zero 40"],["Infinix Zero 30 5G"],["Infinix Zero 30"],["Infinix Zero 20"],
 ["Infinix Note 50 Pro"],["Infinix Note 50"],["Infinix Note 40 Pro"],["Infinix Note 40"],["Infinix Note 30 Pro"],["Infinix Note 30"],["Infinix Note 30i"],
 ["Infinix Note 12 Pro"],["Infinix Note 12"],["Infinix Note 12i"],["Infinix Note 11"],["Infinix Note 11S"],["Infinix Note 10 Pro"],["Infinix Note 10"],
 ["Infinix Hot 50 Pro"],["Infinix Hot 50"],["Infinix Hot 40 Pro"],["Infinix Hot 40i"],["Infinix Hot 40"],["Infinix Hot 30"],["Infinix Hot 30i"],["Infinix Hot 30 Play"],
-["Infinix Hot 20"],["Infinix Hot 20i"],["Infinix Hot 20S"],["Infinix Hot 12"],["Infinix Hot 12i"],["Infinix Hot 11"],["Infinix Hot 11S"],["Infinix Hot 10"],["Infinix Hot 10S"],["Infinix Hot 9"],["Infinix Hot 8"],
+["Infinix Hot 20"],["Infinix Hot 20i"],["Infinix Hot 20S"],["Infinix Hot 12"],["Infinix Hot 12i"],["Infinix Hot 11"],["Infinix Hot 11S"],["Infinix Hot 10"],["Infinix Hot 10S"],
 ["Infinix Smart 9"],["Infinix Smart 8"],["Infinix Smart 8 Pro"],["Infinix Smart 7"],["Infinix Smart 7 HD"],["Infinix Smart 6"],["Infinix Smart 5"],
 // Tecno
 ["Tecno Phantom V Fold 2"],["Tecno Phantom V Fold"],["Tecno Phantom X2 Pro"],["Tecno Phantom X2"],
@@ -340,8 +338,40 @@ document.addEventListener('click',function(e){
   if(!e.target.closest('.ac-wrap'))acList.classList.remove('show');
 });
 
-// ===== CONDITION FIELDS =====
-var condFields=['buyDate','warranty','opened','battery','scratch','camera','display','overall'];
+// Set default buy date
+document.getElementById('buyDate').valueAsDate = new Date();
+
+// Warranty toggle
+function toggleWarranty(){
+  var v=document.getElementById('warrantyYesNo').value;
+  document.getElementById('warrantyMonthsBox').style.display = (v==='yes')?'block':'none';
+}
+
+// ===== BUILD DATE CALCULATION =====
+function calcBuyDateScore(dateStr){
+  if(!dateStr) return 1.00;
+  var buy=new Date(dateStr);
+  var now=new Date();
+  var months=(now.getFullYear()-buy.getFullYear())*12+(now.getMonth()-buy.getMonth());
+  if(months<0)months=0;
+  if(months<=3) return 1.00;
+  if(months<=6) return 0.96;
+  if(months<=12) return 0.90;
+  if(months<=24) return 0.82;
+  if(months<=36) return 0.70;
+  return 0.58;
+}
+
+// ===== WARRANTY SCORE =====
+function calcWarrantyScore(){
+  var v=document.getElementById('warrantyYesNo').value;
+  if(v==='no') return 1.00;
+  var months=parseFloat(document.getElementById('warrantyMonths').value)||0;
+  if(months>=6) return 1.10;
+  if(months>=3) return 1.07;
+  if(months>=1) return 1.03;
+  return 1.00;
+}
 
 var lastCalc={buy:0, adjusted:0};
 
@@ -350,26 +380,35 @@ function calculate(){
   var buy=parseFloat(document.getElementById('buyPrice').value);
   if(!buy){alert('Buy Price দিন!');return}
 
-  var m=1;
-  condFields.forEach(function(id){
-    m *= parseFloat(document.getElementById(id).value);
-  });
+  // Get all multipliers
+  var buyDateScore = calcBuyDateScore(document.getElementById('buyDate').value);
+  var warrantyScore = calcWarrantyScore();
+  var openedScore = parseFloat(document.getElementById('opened').value);
+  var batteryScore = parseFloat(document.getElementById('battery').value);
+  var scratchScore = parseFloat(document.getElementById('scratch').value);
+  var cameraScore = parseFloat(document.getElementById('camera').value);
+  var displayScore = parseFloat(document.getElementById('display').value);
+  var overallScore = parseFloat(document.getElementById('overall').value);
 
-  var adjustedValue = Math.floor(buy * m / 100) * 100;
+  var totalMultiplier = buyDateScore * warrantyScore * openedScore * batteryScore * scratchScore * cameraScore * displayScore * overallScore;
+
+  // Conditional Current Price (customer-facing)
+  var conditionalPrice = Math.floor(buy * totalMultiplier / 100) * 100;
+  var conditionPercent = Math.round(totalMultiplier * 100);
 
   lastCalc.buy = buy;
-  lastCalc.adjusted = adjustedValue;
+  lastCalc.adjusted = conditionalPrice;
 
   var result=document.getElementById('result');
   result.innerHTML=`
     <div class="row"><span class="label-txt">📱 Phone</span><span class="value">${name}</span></div>
     <div class="row"><span class="label-txt">📅 Date</span><span class="value">${new Date().toLocaleDateString('bn-BD')}</span></div>
-    <div class="row"><span class="label-txt">📊 Condition Rate</span><span class="value">${Math.round(m*100)}%</span></div>
+    <div class="row"><span class="label-txt">📊 Condition Score</span><span class="value">${conditionPercent}%</span></div>
 
     <div class="hl">
-      <div class="sm">💼 Expected Buying Price (Customer কে দেখাবেন)</div>
-      <div class="big">৳${buy.toLocaleString()}</div>
-      <div class="sm">"ভাই আমি এই দামে কিনেছি" — trust build</div>
+      <div class="sm">📊 ফোনের Current Conditional Price</div>
+      <div class="big">৳${conditionalPrice.toLocaleString()}</div>
+      <div class="sm">Customer কে এটাই দেখাবেন — "এই ফোনের বর্তমান দাম"</div>
     </div>
 
     <div id="profitTrigger" class="profit-hidden" onclick="showProfitPanel()">
@@ -378,10 +417,10 @@ function calculate(){
     </div>
 
     <div id="profitPanel" class="profit-panel">
-      <label>💰 আপনার Profit % লিখুন</label>
-      <input type="number" id="profitPercent" placeholder="যেমন: 8 / 10 / 15" inputmode="numeric" oninput="calcProfit()">
+      <label>💰 আপনার Profit (টাকায় লিখুন)</label>
+      <input type="number" id="profitAmount" placeholder="যেমন: 500 / 700 / 1000" inputmode="numeric" oninput="calcProfit()">
       <div class="profit-result" id="profitResult">
-        <div class="lbl">Profitable Selling Price</div>
+        <div class="lbl">Expected Selling Price</div>
         <div class="amt" id="finalAmount">৳0</div>
         <div class="per" id="profitDetail"></div>
       </div>
@@ -393,7 +432,7 @@ function calculate(){
       <button style="background:linear-gradient(135deg,#95a5a6,#7f8c8d)" onclick="resetForm()">🔄 Reset</button>
     </div>
 
-    <p class="tip">💡 <b>ব্যবহার:</b> Customer কে <b>Buy Price</b> দেখাবেন (trust build এর জন্য)। Profit % নিজে লিখে Profitable Selling Price বের করবেন। কাস্টমার কিছুই দেখবে না।</p>
+    <p class="tip">💡 <b>ব্যবহার:</b> Customer কে <b>Conditional Price</b> দেখাবেন। Profit amount নিজে লিখে Expected Selling Price বের করবেন — কাস্টমার কিছুই দেখবে না।</p>
   `;
   result.classList.add('show');
   result.scrollIntoView({behavior:'smooth',block:'start'});
@@ -402,7 +441,7 @@ function calculate(){
 function showProfitPanel(){
   document.getElementById('profitTrigger').style.display='none';
   document.getElementById('profitPanel').classList.add('show');
-  document.getElementById('profitPercent').focus();
+  document.getElementById('profitAmount').focus();
 }
 
 function hideProfitPanel(){
@@ -411,26 +450,28 @@ function hideProfitPanel(){
 }
 
 function calcProfit(){
-  var pct=parseFloat(document.getElementById('profitPercent').value);
-  if(!pct || pct<0){
+  var profit=parseFloat(document.getElementById('profitAmount').value)||0;
+  var base=lastCalc.adjusted;
+  if(profit<=0 || base<=0){
     document.getElementById('finalAmount').textContent='৳0';
     document.getElementById('profitDetail').textContent='';
     return;
   }
-  var buy=lastCalc.buy;
-  var profitAmount=Math.round(buy * pct / 100 / 100) * 100;
-  var finalPrice=buy + profitAmount;
+  var finalPrice=base + profit;
+  var pct=((profit/base)*100).toFixed(1);
   document.getElementById('finalAmount').textContent='৳'+finalPrice.toLocaleString();
-  document.getElementById('profitDetail').textContent='Profit: ৳'+profitAmount.toLocaleString()+' ('+pct+'%) • Buy: ৳'+buy.toLocaleString();
+  document.getElementById('profitDetail').textContent='Profit: ৳'+profit.toLocaleString()+' ('+pct+'%)';
 }
 
 function resetForm(){
   document.getElementById('phoneInput').value='';
   document.getElementById('buyPrice').value='';
-  document.getElementById('buyDate').value='1.00';
-  document.getElementById('warranty').value='1.00';
+  document.getElementById('buyDate').valueAsDate = new Date();
+  document.getElementById('warrantyYesNo').value='no';
+  document.getElementById('warrantyMonthsBox').style.display='none';
+  document.getElementById('warrantyMonths').value='';
   document.getElementById('opened').value='1.00';
-  document.getElementById('battery').value='1.00';
+  document.getElementById('battery').value='0.98';
   document.getElementById('scratch').value='1.00';
   document.getElementById('camera').value='1.00';
   document.getElementById('display').value='1.00';
@@ -440,4 +481,5 @@ function resetForm(){
 }
 </script>
 </body>
-</html>
+  </html>
+  

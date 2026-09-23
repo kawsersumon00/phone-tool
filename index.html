@@ -32,7 +32,6 @@ button:active{transform:scale(.98)}
 .ac-item:last-child{border-bottom:none}
 .ac-item:active,.ac-item:hover{background:#e8f8f2}
 .ac-item .m{font-weight:600;color:#222}
-.ac-item .cat{color:#11998e;font-size:11px;font-weight:normal}
 .ac-empty{padding:12px 14px;color:#888;font-size:13px;text-align:center}
 .section{background:#f8f9fa;padding:12px;border-radius:12px;margin-top:14px;border-left:4px solid #11998e}
 .section-title{font-size:13px;font-weight:bold;color:#11998e;margin-bottom:6px}
@@ -85,15 +84,19 @@ button:active{transform:scale(.98)}
 <label>১) Buy Date (কত তারিখে কিনেছে)</label>
 <input type="date" id="buyDate">
 
-<label>২) Warranty আছে?</label>
-<select id="warrantyYesNo" onchange="toggleWarranty()">
-<option value="no" selected>❌ না (Unofficial / Warranty নেই)</option>
-<option value="yes">✅ হ্যাঁ (Official / Warranty আছে)</option>
+<label>২) Official / Unofficial</label>
+<select id="officialType" onchange="toggleWarrantySection()">
+<option value="unofficial" selected>❌ Unofficial (Warranty নেই)</option>
+<option value="official">✅ Official (Warranty আছে)</option>
 </select>
 
-<div id="warrantyMonthsBox" style="display:none">
-  <label>Warranty কত মাস বাকি?</label>
-  <input type="number" id="warrantyMonths" placeholder="যেমন: 6" inputmode="numeric" min="1" max="24">
+<div id="warrantySection" style="display:none">
+  <label>২ক) Warranty কত মাস বাকি?</label>
+  <select id="warrantyMonths">
+    <option value="6">৬+ মাস বাকি</option>
+    <option value="4">৩-৬ মাস বাকি</option>
+    <option value="2">১-৩ মাস বাকি</option>
+  </select>
 </div>
 
 <label>৩) Phone খোলা হয়েছে কি?</label>
@@ -319,13 +322,13 @@ phoneInput.addEventListener('input',function(){
     var p=matches[j];
     var div=document.createElement('div');
     div.className='ac-item';
-    div.innerHTML='<div class="m">'+p[0]+' <span class="cat">[Cat '+p[1]+']</span></div>';
-    div.onclick=(function(name,cat){
+    div.innerHTML='<div class="m">'+p[0]+'</div>';
+    div.onclick=(function(name){
       return function(){
-        phoneInput.value=name+' [Cat '+cat+']';
+        phoneInput.value=name;
         acList.classList.remove('show');
       };
-    })(p[0],p[1]);
+    })(p[0]);
     acList.appendChild(div);
   }
   acList.classList.add('show');
@@ -337,9 +340,9 @@ document.addEventListener('click',function(e){
 
 document.getElementById('buyDate').valueAsDate = new Date();
 
-function toggleWarranty(){
-  var v=document.getElementById('warrantyYesNo').value;
-  document.getElementById('warrantyMonthsBox').style.display = (v==='yes')?'block':'none';
+function toggleWarrantySection(){
+  var v=document.getElementById('officialType').value;
+  document.getElementById('warrantySection').style.display = (v==='official')?'block':'none';
 }
 
 // ===== DEPRECIATION TABLE =====
@@ -374,7 +377,7 @@ var depTable = {
   ]
 };
 
-// ===== CONDITION DROP TABLES (Category-wise) =====
+// ===== CONDITION DROP TABLES =====
 var displayDrops = { A: [0,15,30], B: [0,14,28], C: [0,13,26], D: [0,12,25] };
 var batteryDrops = { A: [0,2,5,10,15,22,30], B: [0,2,6,11,16,24,32], C: [0,3,7,12,18,26,34], D: [0,3,8,13,20,28,36] };
 var scratchDrops = { A: [0,5,12,25], B: [0,6,13,27], C: [0,7,15,28], D: [0,8,17,30] };
@@ -383,11 +386,10 @@ var openedDrops = { A: [0,8,15,25], B: [0,9,16,27], C: [0,10,18,28], D: [0,12,20
 var overallAdj = { A: [3,0,-10,-25], B: [3,0,-12,-27], C: [3,0,-13,-30], D: [3,0,-15,-32] };
 var boxDrops = { A: [0,5,10], B: [0,5,10], C: [0,5,10], D: [0,5,10] };
 var chargerDrops = { A: [0,4,8], B: [0,4,8], C: [0,4,8], D: [0,4,8] };
+var warrantyDropTable = { A: [0,0,2,12], B: [0,0,2,12], C: [0,0,3,14], D: [0,0,3,16] };
 
 function getCategory(){
   var v = phoneInput.value;
-  var m = v.match(/\[Cat ([ABCD])\]/);
-  if(m) return m[1];
   var name = v.toLowerCase();
   if(/iphone|galaxy s|galaxy z|nothing|pixel|oneplus [0-9]|xperia|rog phone|xiaomi 1|find x|realme gt|vivo x|edge [0-9]/.test(name)) return 'A';
   if(/tecno|infinix/.test(name)) return 'C';
@@ -406,7 +408,7 @@ function getDepDrop(days, cat){
 var lastCalc={base:0, buy:0};
 
 function calculate(){
-  var name = phoneInput.value.replace(/\s*\[Cat [ABCD]\]/,'') || 'Phone';
+  var name = phoneInput.value || 'Phone';
   var cat = getCategory();
   var buy = parseFloat(document.getElementById('buyPrice').value);
   if(!buy){alert('Buy Price দিন!');return}
@@ -426,15 +428,16 @@ function calculate(){
 
   var depDrop = getDepDrop(days, cat);
 
-  // Warranty
-  var warrantyBonus = 0;
+  // Warranty Logic
+  var warrantyDrop = 0;
   var warrantyText = 'Unofficial';
-  if(document.getElementById('warrantyYesNo').value === 'yes'){
-    var wm = parseFloat(document.getElementById('warrantyMonths').value) || 0;
-    if(wm >= 6){ warrantyBonus = 12; warrantyText = 'Official ('+wm+' মাস বাকি)'; }
-    else if(wm >= 3){ warrantyBonus = 8; warrantyText = 'Official ('+wm+' মাস বাকি)'; }
-    else if(wm >= 1){ warrantyBonus = 4; warrantyText = 'Official ('+wm+' মাস বাকি)'; }
+  if(document.getElementById('officialType').value === 'official'){
+    var wm = parseInt(document.getElementById('warrantyMonths').value);
+    if(wm >= 6){ warrantyDrop = 0; warrantyText = 'Official (৬+ মাস বাকি)'; }
+    else if(wm >= 4){ warrantyDrop = 0; warrantyText = 'Official (৩-৬ মাস বাকি)'; }
+    else if(wm >= 2){ warrantyDrop = warrantyDropTable[cat][2]; warrantyText = 'Official (১-৩ মাস বাকি)'; }
   } else {
+    warrantyDrop = warrantyDropTable[cat][3];
     warrantyText = 'Unofficial (Warranty নেই)';
   }
 
@@ -465,19 +468,11 @@ function calculate(){
   var boxText = document.getElementById('boxItem').selectedOptions[0].text;
   var chargerText = document.getElementById('chargerItem').selectedOptions[0].text;
 
-  // Total drop
-  var totalDrop = depDrop + displayDrop + batteryDrop + scratchDrop + cameraDrop + openedDrop + boxDrop + chargerDrop + Math.abs(overallBonus);
-
-  // Overall OK bonus (positive) — subtract
+  var totalDrop = depDrop + displayDrop + batteryDrop + scratchDrop + cameraDrop + openedDrop + boxDrop + chargerDrop + warrantyDrop + Math.abs(overallBonus);
   if(overallBonus > 0) totalDrop -= overallBonus;
-
-  // Warranty bonus
-  totalDrop -= warrantyBonus;
-
   if(totalDrop < 0) totalDrop = 0;
 
   var currentPrice = Math.floor(buy * (100 - totalDrop) / 100 / 100) * 100;
-
   var minPrice = Math.floor(buy * 0.25 / 100) * 100;
   if(currentPrice < minPrice) currentPrice = minPrice;
   if(currentPrice > buy) currentPrice = buy;
@@ -488,15 +483,13 @@ function calculate(){
   var result=document.getElementById('result');
   result.innerHTML=`
     <div class="row"><span class="label-txt">📱 Phone</span><span class="value">${name}</span></div>
-    <div class="row"><span class="label-txt">🏷️ Category</span><span class="value">${cat}</span></div>
     <div class="row"><span class="label-txt">📅 Used</span><span class="value">${usedText}</span></div>
     <div class="row"><span class="label-txt">💵 Original Price</span><span class="value">৳${buy.toLocaleString()}</span></div>
     <div class="row"><span class="label-txt">📉 Total Drop</span><span class="value">-${totalDrop}%</span></div>
 
     <div class="hl">
-      <div class="sm">📊 Current Market Price</div>
+      <div class="sm">ফোনের বর্তমান বাজার মূল্য</div>
       <div class="big">৳${currentPrice.toLocaleString()}</div>
-      <div class="sm">Customer কে এটাই দেখাবেন</div>
     </div>
 
     <div id="profitTrigger" class="profit-hidden" onclick="showProfitPanel()">
@@ -543,8 +536,8 @@ function calculate(){
         ${openedDrop>0?'<br>Opened: -'+openedDrop+'%':''}
         ${boxDrop>0?'<br>Box নেই: -'+boxDrop+'%':''}
         ${chargerDrop>0?'<br>Charger নেই: -'+chargerDrop+'%':''}
+        ${warrantyDrop>0?'<br>Warranty নেই: -'+warrantyDrop+'%':''}
         ${Math.abs(overallBonus)>0 && overallBonus<0 ?'<br>Overall: -'+Math.abs(overallBonus)+'%':''}
-        ${warrantyBonus>0?'<br>Warranty Bonus: +'+warrantyBonus+'%':''}
       </div>
     </div>
   `;
@@ -581,9 +574,8 @@ function resetForm(){
   document.getElementById('phoneInput').value='';
   document.getElementById('buyPrice').value='';
   document.getElementById('buyDate').valueAsDate = new Date();
-  document.getElementById('warrantyYesNo').value='no';
-  document.getElementById('warrantyMonthsBox').style.display='none';
-  document.getElementById('warrantyMonths').value='';
+  document.getElementById('officialType').value='unofficial';
+  document.getElementById('warrantySection').style.display='none';
   document.getElementById('opened').value='0';
   document.getElementById('battery').value='0';
   document.getElementById('scratch').value='0';
@@ -597,5 +589,4 @@ function resetForm(){
 }
 </script>
 </body>
-  </html>
-  
+</html>
